@@ -155,7 +155,7 @@ class Exploration(object):
             for direction in directions:
                 temp = realTimeMap[normalizeY(i + direction[0])][normalizeX(j + direction[1])]
                 if temp == 0:  #check 4 facing side
-                    cnt += 2
+                    cnt += 2   #blah
             return cnt * cnt * cnt - distance
 
 

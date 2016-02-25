@@ -1,100 +1,125 @@
+
+#===============================================================================
+# """
+# 0: unexplored
+# 1: explored
+# 2: obstacle
+# 3: robot body
+# 4: robot head
+# 5: robot center
+# 6: start
+# 7: goal
+# 8: explored path
+# 9: optimum path
+# """
+#===============================================================================
+
 """
-0: unexplored
-1: explored
-2: obstacle
-3: robot body
-4: robot head
-5: robot center
-6: start
-7: goal
-8: explored path
-9: optimum path
+Map description: 
+0: unexplored cell
+1: explored cell
+2: robot head
+3: robot center
+4: robot body
+5: obstacle
+6: start zone
+7: goal zone
+8: free path
+9: shortest path
 """
-from algo.shortest_path import ShortestPath
-from algo.constants import *
+
 import random
 import time
+from algo.shortest_path import ShortestPath
+from algo.constants import *
 
 class Exploration(object):
-    """docstring for Exploration"""
 
-    realTimeMap = []
-    sensorList = []
-    pathTaken = []
-    repeatedArea = 0
-    robotPrevMovement = "O"
-    robotCurMovement = "O"
+    """description for map & information tracked for robot"""
+    realTimeMap = [] #########    
+    pathTaken = [] ##########
+    sensors = [] 
+    
+    preStep = "O"
+    curStep = "O"
+    centerX = 1
+    centerY = 18
+    directionX = 1
+    directionY = 17
+    
+    repeatedCell = 0
+    exploredCell = 0
+    cnt = 0 ###########
+    terminateRobot= False
 
-    robotCenterX = 1
-    robotCenterY = 18
-    robotDirectionX = 1
-    robotDirectionY = 17
-    repeatedArea = 0
-    exploredArea = 0
-    cnt = 0
-    robotBreak = False
-
-    def __init__(self, _exploredPercentage):
+    def __init__(self, _coverageFigure):
         super(Exploration, self).__init__()
-        global cnt
-        cnt = 0
-
+        
         global realTimeMap
-        global sensorList
         global pathTaken
-        global robotPrevMovement
-        global robotCurMovement
-        global robotCenterX
-        global robotCenterY
-        global robotDirectionX
-        global robotDirectionY
-        global repeatedArea
-        global exploredPercentage
-        global robotBreak
-        global exploredArea
-        global spCounter
-        global spList
+        global sensors 
+        
+        global preStep
+        global curStep
+        global centerX
+        global centerY
+        global directionX
+        global directionY
+        
+        global repeatedCell
+        global exploredCell
+        global cnt ########
+        global terminateRobot
+              
+        global spList   ##########
+        global spCounter ############    
         global repeatedTreshold
-        global isFirstStart
-        repeatedTreshold = 10#6#5#20#15#10# 30
-        isFirstStart = True
+        global isFirstAttempt
+        global coverageFigure 
+        
+        """0 for bottom row, 19 for top row"""
+        realTimeMap = []     
+        pathTaken = []
+        
+        """       
+        description of sensors: 
+        0: front-left            
+        1: front-center
+        2: front-right
+        3: left
+        4: right
+        5: bottom-left
+        6: robot facing direction(W-up,A-left,D-right,S-down)
+        """
+        sensors = []
+               
+        preStep = "O"
+        curStep = "O"
+        centerX = 1
+        centerY = 18
+        directionX = 1
+        directionY = 17
+        
+        repeatedCell = 0
+        exploredCell = 0
+        cnt = 0
+        terminateRobot = False
+        
         spList = []
         spCounter = 0
-        robotBreak = False
-        exploredArea = 0
-        exploredPercentage = _exploredPercentage
-
-        # realTimeMap[0] = bottom row
-        # realTimeMap[19] = top row
-        realTimeMap = []
-
-        # sensorList[0] = direction of robot (W-Facing up, S-Facing down, A-facing left, D-facing right)
-        # sensorList[1] = frontleft
-        # sensorList[2] = frontcenter
-        # sensorList[3] = frontright
-        # sensorList[4] = left
-        # sensorList[5] = right
-        # sensorList[6] = bottomleft
-        sensorList = []
-        pathTaken = []
-
-        repeatedArea = 0
-        robotPrevMovement = "O"
-        robotCurMovement = "O"
-
-        robotCenterX = 1
-        robotCenterY = 18
-        robotDirectionX = 1
-        robotDirectionY = 17
-
+        repeatedTreshold = 10 #6#5#20#15#10# 30 ################
+        isFirstAttempt = True 
+        coverageFigure= _coverageFigure
+        
+        """initial map"""
         for i in range (0,20):
             Row = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
             realTimeMap.append(Row)
 
-        # set robot initial position as explored
+        """set robot's initial position as 1"""
         directions = [[0, 0], [0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
         for direction in directions:
-            realTimeMap[robotCenterY + direction[0]][robotCenterX + direction[1]] = 1
+            realTimeMap[centerY + direction[0]][centerX + direction[1]] = 1
 
 
     def main(self, sensors, explored_map):
@@ -112,29 +137,26 @@ class Exploration(object):
                 return 0
             else:
                 return 14
-        def manhattan(_from, _to):
-            return abs(_from[0] - _to[0]) + abs(_from[1] - _to[1])
-        def okay(i, j):
+        def manhattanDistance(_start, _end):
+            return abs(_start[0] - _end[0]) + abs(_start[1] - _end[1])
+        def free(i, j):  
+            global centerX
+            global centerY
             global realTimeMap
-            global robotCenterX
-            global robotCenterY
-            if realTimeMap[i][j] == 0 or realTimeMap[i][j] == 2:
+            if realTimeMap[i][j] == 0 or realTimeMap[i][j] == 5: #check center is not unexplored or obstacle
                 return -INF
             directions = [[0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
-            for direction in directions:
-                if realTimeMap[i + direction[0]][j + direction[1]] == 2:
+            for direction in directions: #check the adjacent 8 cell is not obstacle
+                if realTimeMap[i + direction[0]][j + direction[1]] == 5:  
                     return -INF
-
-
             directions = [[0, 2], [1, 2], [-1, 2], [0, -2], [1, -2], [-1, -2], [-2, 0], [-2, 1], [-2, -1], [2, 0], [2, -1], [2, 1]]
-            dist = manhattan([robotCenterY, robotCenterX], [i, j])
+            distance = manhattanDistance([centerY, centerX], [i, j])
             cnt = 0
             for direction in directions:
                 temp = realTimeMap[normalizeY(i + direction[0])][normalizeX(j + direction[1])]
-                if temp == 0:
+                if temp == 0:  #check 4 facing side
                     cnt += 2
-            return cnt * cnt * cnt - dist
-
+            return cnt * cnt * cnt - distance
 
 
         global realTimeMap

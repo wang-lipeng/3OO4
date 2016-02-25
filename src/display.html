@@ -3,10 +3,24 @@
 <html>
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>MDPGrp5 Map Display</title>
+    
         <meta charset="utf-8">
+ 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+       <title>Map Simulator</title>
         <style>
-* {
+       
+/* * {
     padding: 0;
     margin: 0;
 }
@@ -45,12 +59,13 @@
     overflow: auto;
 }
 #canvas-container {
-    margin: 1em auto 0 auto; width: 450px;
+    margin: 1em auto 0 auto; width: 650px;
 }
 #canvas {
     background: #eee;
-}
-button {
+    position: center;
+} */
+/* button {
     display: inline-block;
     margin-bottom: 0px;
     font-weight: normal;
@@ -76,9 +91,127 @@ button:hover {
 input {
     border: 1px solid #ccc;
 }
+ */
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
         </style>
     </head>
     <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
+            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+  <!--   
         <div id="right">
         <div id="control">
             <label>Per step: <input type="text" name="stepTime" id="stepTime" value="0.1" placeholder="0.1"></label>
@@ -87,17 +220,88 @@ input {
             <br>
             <label>% limit: <input type="number" name="percentageLimit" id="percentageLimit" value="100" placeholder="100" min="0" max="100"></label>
             <br>
-            <button id="start">Start</button>
-            <button id="startSp">Start SP</button>
-            <button id="stop">Stop</button>
+          
+            <button id="start" type="button" class="btn btn-success">Start</button>
+            <button id="startSp" type="button" class="btn btn-info">Start SP</button>
+            <button id="stop" type="button" class="btn btn-danger">Stop</button>
+             
         </div>
         <div id="messages"></div>
         </div>
-        <div style="width: 100%"><div id="canvas-container">
+       <div id="canvas-container" class="jumbotron">
         <canvas id="canvas" width="450" height="600">
 
         </canvas>
-        </div></div>
+        </div> -->
+        
+        
+        <div class="container">
+      <div class="header clearfix">
+        <nav>
+       <!--    <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li>
+          </ul> -->
+        </nav>
+        <h3 class="text-muted">CZ3004 MDP Map Simulator</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Map Simulator</h1>
+ <div id="right">
+        <div id="control">
+            <label>Per step: <input type="text" name="stepTime" id="stepTime" value="0.1" placeholder="0.1"></label>
+            <br>
+            <label>Time limit: <input type="time" name="timeLimit" id="timeLimit" value="99:99" placeholder="00:00"></label>
+            <br>
+            <label>% limit: <input type="number" name="percentageLimit" id="percentageLimit" value="100" placeholder="100" min="0" max="100"></label>
+            <br>
+          
+            <button id="start" type="button" class="btn btn-success">Start</button>
+            <button id="startSp" type="button" class="btn btn-info">Start SP</button>
+            <button id="stop" type="button" class="btn btn-danger">Stop</button>
+             
+        </div>
+        <div id="messages"></div>
+        </div>
+       <div id="canvas-container" class="jumbotron">
+        <canvas id="canvas" width="450" height="600">
+
+        </canvas>
+        </div>
+</div>
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2015 Company, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
+        
+        <!-- simulator code -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(e) {
             var ws, wsOk = false;
@@ -344,3 +548,4 @@ input {
         </script>
     </body>
 </html>
+

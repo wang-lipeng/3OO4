@@ -18,10 +18,10 @@ Created on 12 Feb 2016
 #===============================================================================
 
 import Queue
-
 from Queue import PriorityQueue
 from algo.constants import *
 
+#Create Priority Queue node
 class PqNode(object):
     def __init__(self, _dict):
         self.weight = _dict["weight"]
@@ -60,19 +60,21 @@ class ShortestPath(object):
         # coord[0] is y
         # coord[1] is x
 
+    #is_okay: detect the cells that are okay to move
     def is_okay(self, coord):
-        # return self.map[coord[0]][coord[1]] != 0 and self.map[coord[0]][coord[1]] != 2
+       
+        # neither unexplored area or obstacle : explored cell
         directions = [[0, 0], [0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
         for direction in directions:
+            #mark out of range area and obstacle cells false
             if  coord[0] + direction[0] < 0 or coord[0] + direction[0] >= self.MAX_ROW or \
                 coord[1] + direction[1] < 0 or coord[1] + direction[1] >= self.MAX_COL or \
-                self.map[coord[0] + direction[0]][coord[1] + direction[1]] == 2: # obstacle
-                # self.map[coord[0] + direction[0]][coord[1] + direction[1]] == 0 or \ # unexplored
+                self.map[coord[0] + direction[0]][coord[1] + direction[1]] == 2: # obstacle             
                 return False
         return True
 
     def expand(self, head):
-        directions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+        directions = [[1, 0], [0, 1], [-1, 0], [0, -1]] #S,E,N,W
         ret = []
         for direction in directions:
             if 0 <= direction[0] + head[0] < len(self.map) and 0 <= direction[1] + head[1] < len (self.map[0]) and  self.is_okay([direction[0] + head[0], direction[1] + head[1]]):

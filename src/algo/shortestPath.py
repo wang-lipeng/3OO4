@@ -3,19 +3,22 @@ Created on 12 Feb 2016
 
 @author: Bridge
 '''
+#===============================================================================
+# Map Description
+# 0: unexplored cell
+# 1: explored cell
+# 2: obstacle
+# 3: robot head
+# 4: robot center
+# 5: robot body
+# 6: start zone
+# 7: goal zone
+# 8: free path
+# 9: shortest path
+#===============================================================================
+
 import Queue
-"""
-- 0: unexplored
-- 1: explored
-- 2: obstacle
-- 3: robot body
-- 4: robot head
-- 5: robot center
-- 6: start
-- 7: goal
-- 8: explored path
-- 9: optimum path
-"""
+
 from Queue import PriorityQueue
 from algo.constants import *
 
@@ -24,7 +27,7 @@ class PqNode(object):
         self.weight = _dict["weight"]
         self.direction = _dict["direction"]
         self.position = _dict["position"]
-    def __lt__(self, rhs):
+    def __lt__(self, rhs):#
         return self["weight"] < rhs["weight"]
     def __gt__(self, rhs):
         return self["weight"] > rhs["weight"]
@@ -194,7 +197,7 @@ class ShortestPath(object):
             if cur[0] == -1 and cur[1] == -1:
                 break # no path possible
 
-        # construct direction from start
+        # consruct direction from start
         cur = self.start
         cur_dir = self.directon
         seq = []

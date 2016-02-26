@@ -14,7 +14,7 @@ import random
 from algo.constants import *
 import algo.simulate
 from algo.explore import Exploration
-from algo.sp import ShortestPath
+from algo.shortestPath import ShortestPath
 
 #from sys import argv
 #script, filename = argv
@@ -113,7 +113,7 @@ def start_sp_to_goal():
     if not exp_done:
         return False
     sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    sp_list = sp.sp()
+    sp_list = sp.shortest_path()
     sp_sequence = sp_list['trim_seq']
     sp_sequence.reverse() # will pop from the back
     inform(sp_sequence)
@@ -202,7 +202,7 @@ def exploration(exp):
 
 
         sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.start)
-        sp_list = sp.sp(-1)
+        sp_list = sp.shortest_path(-1)
         sp_sequence = sp_list['trim_seq']
         sp_sequence.reverse() # will pop from the back
         inform(sp_sequence)

@@ -10,7 +10,7 @@
 8: explored path
 9: optimum path
 """
-from algo.sp import ShortestPath
+from algo.shortestPath import ShortestPath
 from algo.constants import *
 import random
 import time

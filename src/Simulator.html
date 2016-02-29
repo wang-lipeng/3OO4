@@ -144,10 +144,11 @@ body {
       <div class="row marketing">
         <div class="col-lg-6">
           <label>Per step: <input type="text" name="stepTime" id="stepTime" value="0.05" placeholder="0.05"></label>
+       
             <br>
-            <label>Time limit(mm:ss): <input type="text" name="timeLimit" id="timeLimit" value="00:05" placeholder="00:05"></label>
+            <label>Time limit (mm:ss): <input type="time" name="timeLimit" id="timeLimit" value="00:30" placeholder="00:00"></label>
             <br>
-            <label>% limit: <input type="text" name="percentageLimit" id="percentageLimit" value="0" placeholder="0" min="0" max="100"></label>
+            <label>Coverage limit (%): <input type="number" name="percentageLimit" id="percentageLimit" value="100" placeholder="100" min="0" max="100"></label>
             <br>
         </div>
 
@@ -161,8 +162,6 @@ body {
       </footer>
 
     </div> <!-- /container -->
-        
-        <!-- simulator code -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(e) {
             var ws, wsOk = false;
@@ -228,28 +227,26 @@ body {
                 - 8: explored path
                 - 9: optimum path
                  */
-                switch(cell) {
-                case 0: return "#e4e5f8";
-                case 1: return "#c0c3f7";
-                case 2: return "#3C2E59";
-                case 3: return "#F29BCB";
-                case 4: return "#F779AA";
-                case 5: return "#FFC8D6";
-                case 6: return "#fc7a81";
-                case 7: return "#fff67c";
-                case 8: return "#888DF2";
-                case 9: return "#FEF5A2";
-                default: return "#7bb7ba"; // 0
-                    
+                 switch(cell) {
+	                 case 0: return "#e4e5f8";
+	                 case 1: return "#c0c3f7";
+	                 case 2: return "#3C2E59";
+	                 case 3: return "#F29BCB";
+	                 case 4: return "#F779AA";
+	                 case 5: return "#FFC8D6";
+	                 case 6: return "#fc7a81";
+	                 case 7: return "#fff67c";
+	                 case 8: return "#888DF2";
+	                 case 9: return "#FEF5A2";
+	                 default: return "#7bb7ba"; // 0
                 }
             }
-            
             function draw(map) {
                 // console.log(map);
 
                 context.save();
                 context.strokeStyle = "#121212";
-                context.lineWidth = 1;
+                context.lineWidth = .5;
                 for (var y = 0; y < ROW_COUNT; y++) {
                     for (var x = 0; x < COL_COUNT; x++) {
                         context.beginPath();
@@ -289,10 +286,9 @@ body {
                     wsConnect();
                 }
                 var r = new XMLHttpRequest();
-                var percentage = parseInt(document.getElementById('percentageLimit').value); 
-                /* var percentage = 100; */
+                var percentage = document.getElementById('percentageLimit').value || 0;
                 var stepTime = parseFloat(document.getElementById('stepTime').value);
-                if (!document.getElementById('stepTime').value) stepTime = 0.05;
+                if (!document.getElementById('stepTime').value) stepTime = 0.1;
 
                 r.open("GET", "/start/" + percentage + "/" + stepTime, true);
                 r.onreadystatechange = function () {
@@ -321,7 +317,7 @@ body {
                     parseInt(timeString[4], 10);
 
                 timeLimit *= 1000; // convert to ms
-                console.log(timeLimit);
+                // console.log(timeLimit);
 
                 timer.start();
                 timer.tick();
@@ -350,11 +346,9 @@ body {
                     wsConnect();
                 }
                 var r = new XMLHttpRequest();
-                //var percentage = document.getElementById('percentageLimit').value || 0; 
-                //var percentage = 100;;
-                var percentage = parseInt(document.getElementById('percentageLimit').value);
+                var percentage = document.getElementById('percentageLimit').value || 0;
                 var stepTime = parseFloat(document.getElementById('stepTime').value);
-                if (!document.getElementById('stepTime').value) stepTime = 0.05;
+                if (!document.getElementById('stepTime').value) stepTime = 0.1;
 
                 r.open("GET", "/stop/" , true);
                 r.onreadystatechange = function () {
@@ -414,4 +408,3 @@ body {
         </script>
     </body>
 </html>
-

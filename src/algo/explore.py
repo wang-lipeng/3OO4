@@ -82,7 +82,7 @@ class Exploration(object):
         
         sPathList = []
         sPathCounter = 0
-        repeatedTorlerence = 10 #6, 5, 20, 15, 30...
+        repeatedTorlerence = 30 #6, 5, 20, 15, 30...
         isInitialStart = True 
         coverageFigure= _coverageFigure
         
@@ -250,7 +250,7 @@ class Exploration(object):
                                 
                 sPathCounter = sPathCounter + 1
                 repeatedCell = 0
-                repeatedTorlerence = 3
+                repeatedTorlerence = 30
 
     
 

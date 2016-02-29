@@ -1,168 +1,191 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-        <meta charset="utf-8">
- 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	crossorigin="anonymous">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-       <title>Map Simulator</title>
-        <style>
-       
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+	crossorigin="anonymous"></script>
+<title>Map Simulator</title>
+<style>
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-right: 15px;
-  padding-left: 15px;
+.header, .marketing, .footer {
+	padding-right: 15px;
+	padding-left: 15px;
 }
 
 /* Custom page header */
 .header {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #e5e5e5;
 }
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 40px;
 }
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
 }
 
 /* Customize container */
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+@media ( min-width : 768px) {
+	.container {
+		max-width: 730px;
+	}
 }
-.container-narrow > hr {
-  margin: 30px 0;
+
+.container-narrow>hr {
+	margin: 30px 0;
 }
 
 /* Main marketing message and sign up button */
 .jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+	text-align: center;
+	border-bottom: 1px solid #e5e5e5;
 }
+
 .jumbotron .btn {
-  padding: 14px 24px;
-  font-size: 21px;
+	padding: 14px 24px;
+	font-size: 21px;
 }
 
 /* Supporting marketing content */
 .marketing {
-  margin: 40px 0;
+	margin: 40px 0;
 }
-.marketing p + h4 {
-  margin-top: 28px;
+
+.marketing p+h4 {
+	margin-top: 28px;
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-right: 0;
-    padding-left: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+	/* Remove the padding we set earlier */
+	.header, .marketing, .footer {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	/* Space out the masthead */
+	.header {
+		margin-bottom: 30px;
+	}
+	/* Remove the bottom border on the jumbotron for visual effect */
+	.jumbotron {
+		border-bottom: 0;
+	}
 }
-        </style>
-    </head>
-    <body>
-    <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-         
-          <a class="navbar-brand" href="#">CZ3004 MDP</a>
-        </div>
-        
+.info {
+    display: block;
+/*     border-bottom: 1px solid #ccc; */
+    position: relative;
+    width: inherit;
+    overflow: auto;
     
-      </div>
-    </nav>
+}
+.info-time {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 9px;
+    color: #214fc6;
+}
+.info-body {
+    padding-top: 12px;
+    color: #111;
+    width: inherit;
+    font-weight:bold;
+    /* word-break: break-all; */
+}
+#messages {
+    height: 520px;
+    overflow: auto;
+}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">CZ3004 MDP</a>
+			</div>
+		</div>
+	</nav>
 
-               
-        <div class="container">
-      <div class="header clearfix">
-        <nav>
 
-        </nav>
-        <h3 class="text-muted">Map Simulator</h3>
-      </div>
+	<div class="container">
+		<div class="header clearfix">
+			<nav></nav>
+			<h3 class="text-muted">Map Simulator</h3>
+		</div>
 
-      <div class="jumbotron">
-       
- <div id="right">
-        <div id="control">
-          
-          
-            <button id="start" type="button" class="btn btn-success">Explore</button>
-            <button id="startSp" type="button" class="btn btn-info">Find Shortest Path</button>
-            <button id="stop" type="button" class="btn btn-danger">Stop</button>
-             
-        </div>
-       
-        </div>
-       <div id="canvas-container" class="jumbotron">
-        <canvas id="canvas" width="450" height="600">
+		<div class="jumbotron">
+			<div id="right">
+				<div id="control">
+					<button id="start" type="button" class="btn btn-success">Explore</button>
+					<button id="startSp" type="button" class="btn btn-info">Find
+						Shortest Path</button>
+					<button id="stop" type="button" class="btn btn-danger">Stop</button>
+				</div>
+			</div>
+			<div id="canvas-container" class="jumbotron">
+				<canvas id="canvas" width="450" height="600">
+        		</canvas>
+			</div>
+		</div>
+		<div class="row marketing">
+			<div class="col-lg-3">
+				<label>Speed: <input type="text" name="stepTime"
+					id="stepTime" value="0.05" placeholder="0.05"></label> <br> <label>Time
+					limit (mm:ss): <input type="text" name="timeLimit" id="timeLimit"
+					value="00:10" placeholder="00:00">
+				</label> <br> <label>Coverage limit (%): <input type="number"
+					name="percentageLimit" id="percentageLimit" value="100"
+					placeholder="100" min="0" max="100"></label> <br>
+			</div>
 
-        </canvas>
-        
-        </div>
-</div>
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <label>Per step: <input type="text" name="stepTime" id="stepTime" value="0.05" placeholder="0.05"></label>
-       
-            <br>
-            <label>Time limit (mm:ss): <input type="time" name="timeLimit" id="timeLimit" value="00:30" placeholder="00:00"></label>
-            <br>
-            <label>Coverage limit (%): <input type="number" name="percentageLimit" id="percentageLimit" value="100" placeholder="100" min="0" max="100"></label>
-            <br>
-        </div>
+			<div class="col-lg-9">
+				<div id="messages"></div>
+			</div>
+		</div>
 
-        <div class="col-lg-6">
-           <div id="messages"></div>
-        </div>
-      </div>
+		<footer class="footer">
+			<p>&copy; Group 6</p>
+		</footer>
 
-      <footer class="footer">
-        <p>&copy; Group 6 </p>
-      </footer>
-
-    </div> <!-- /container -->
-    <script type="text/javascript">
+	</div>
+	<!-- /container -->
+	<script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(e) {
             var ws, wsOk = false;
             var messageContainer = document.getElementById('messages');
@@ -406,5 +429,5 @@ body {
             // goal and end always at corner, but may be different corners
         });
         </script>
-    </body>
+</body>
 </html>

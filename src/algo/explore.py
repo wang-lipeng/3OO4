@@ -82,7 +82,7 @@ class Exploration(object):
         
         sPathList = []
         sPathCounter = 0
-        repeatedTorlerence = 30 #6, 5, 20, 15, 30...
+        repeatedTorlerence = 10 #6, 5, 20, 15, 30...
         isInitialStart = True 
         coverageFigure= _coverageFigure
         
@@ -201,6 +201,12 @@ class Exploration(object):
                 for j in range(0,15):
                     if realTimeMap[i][j] != 0:
                         exploredCell = exploredCell + 1
+        
+        ##########################
+        if exploredCell >= coverageFigure * 3:
+                """end exploration with satisfied percentage"""
+                terminateRobot = True
+        
         if repeatedCell >= repeatedTorlerence: 
             """end exploration due to exceeding repeat Torlerence"""
             curStep = None            
@@ -209,6 +215,7 @@ class Exploration(object):
             if exploredCell >= coverageFigure * 3 or sPathCounter > 5:
                 """end exploration with satisfied result"""
                 terminateRobot = True
+            
             elif not terminateRobot:
                 """continue the exploration"""
                 rCenter = [centerY, centerX]
@@ -250,7 +257,7 @@ class Exploration(object):
                                 
                 sPathCounter = sPathCounter + 1
                 repeatedCell = 0
-                repeatedTorlerence = 30
+                repeatedTorlerence = 3
 
     
 
@@ -458,7 +465,10 @@ class Exploration(object):
         global terminateRobot
         global centerX
         global centerY
+        global coverageFigure
         self.main(srs, explored_map)
         print("[Tornado | %s] explore.py > %d - %s : (%d, %d)" %(time.ctime(time.time()), count + 1, curStep, centerY, centerX))
+        print("Defined percentage: ",coverageFigure)
+        print("Number of explored cells:", exploredCell)
         count = count+1
         return (curStep, terminateRobot)

@@ -153,7 +153,7 @@ class ShortestPath(object):
         ret_cost = 1 + max(0, (len(action) - 1) * (len(action) - 1) * 10) + add_cost
         return ret_cost
 
-    def shortest_path(self, mark_value = 9):
+    def shortestPath(self, mark_value = 9):
         dist = [] # for each cell, how far is it from the start?
         prev = [] # for each cell, what is its parent?
         next_post = [] # for each cell in optimized path, what is the next position?

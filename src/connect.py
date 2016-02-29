@@ -9,31 +9,24 @@ import datetime
 import json
 import zope.event
 import random
+import sys
 
 from algo.constants import *
 import algo.simulate
 from algo.explore import Exploration
 from algo.shortestPath import ShortestPath
 
-#from sys import argv
-#script, filename = argv
-
-import sys
-
+"""record exploration path for examine purpose"""
+log = open('log.txt', 'w')
 orig_stdout = sys.stdout
-f = open('log.txt', 'w')
 
 clients = dict()
-started = False
 delay_time = 0.1
-exp_done = False
 
-define("port", default=8888, help="run on the given port", type=int)
+started = False
+completeExplore = False
 
-def delay_call(f, *args, **kwargs):
-    global delay_time
-    t = threading.Timer(delay_time, f, args=args, kwargs=kwargs)
-    t.start()
+define("port", default=8888, help="run on the defined port", type=int)
 
 class FuncThread(threading.Thread):
     def __init__(self, target, *args):
@@ -44,8 +37,6 @@ class FuncThread(threading.Thread):
     def run(self):
         self._target(*self._args)
 
-
-
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self, *args):
         self.id = self.get_argument("Id")
@@ -54,39 +45,34 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         tick("INIT")
 
     def on_message(self, message):
-        """
-        when we receive some message we want some message handler..
-        for this example i will just print message to console
-        """
         print ("Client " + str(self.id) + " received a message : " + str(message))
-        #for key in clients:
-        #    if (clients[key]['id'] != self.id):
-        #        clients[key]['object'].write_message(message)
-
+        
     def on_close(self):
         if self.id in clients:
             del clients[self.id]
 
-class IndexHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
-    def get(self):
-        self.render("simulator.html")
+def delay_call(log, *args, **kwargs):
+    global delay_time
+    t = threading.Timer(delay_time, log, args=args, kwargs=kwargs)
+    t.start()
 
-def start_exploration(percentage, delay):
+"""execute exploration function"""
+def execute_exploration(percentage, delay):
     global robot
     global started
     global delay_time
+    global log
+    global sensors
+    
+    robot = algo.simulate.Robot()
     if started:
         return
     started = True
-
-    global f
-    if f.closed:
-        f = file('log.txt', 'w')
-    sys.stdout = f
-
-    robot = algo.simulate.Robot()
-    delay_time = float(delay)
+    delay_time = float(delay)    
+    if log.closed:
+        log = open('log.txt', 'w')
+    sys.stdout = log
+    sensors = robot.get_sensors()
 
     robot.get_sensors()
     robot.step(RIGHT)
@@ -94,68 +80,71 @@ def start_exploration(percentage, delay):
     robot.step(LEFT)
     robot.get_sensors()
 
-    exp = Exploration(int(percentage))
+    explore = Exploration(int(percentage))
 
-    global sensor_list
-    sensor_list = robot.get_sensors()
+    t = FuncThread(exploration, explore)
+    t.start()
+    t.join()
 
-    t1 = FuncThread(exploration, exp)
-    t1.start()
-    t1.join()
+    inform("Start to explore...")
 
-    inform("Exploration started!")
-
-def start_sp_to_goal():
+"""execute shortest path function"""
+def execute_sPath():
     global robot
-    if not exp_done:
+    if not completeExplore:
         return False
-    sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    sp_list = sp.shortest_path()
-    sp_sequence = sp_list['trim_seq']
-    sp_sequence.reverse() # will pop from the back
-    inform(sp_sequence)
-    delay_call(sp_to_goal, sp_sequence)
+    sPath = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
+    sPath_list = sPath.shortestPath()
+    sPath_sequence = sPath_list['trim_seq']
+    sPath_sequence.reverse() 
+    inform(sPath_sequence)
+    delay_call(sPath_to_goal, sPath_sequence)
 
-    inform("ShortestPath started!")
+    inform("Start shortest path...")
 
+"""handler for html file"""
+class IndexHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("Simulator.html")
+        
+"""start handler for exploration"""
 class StartHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(self, percentage, delay):
         self.write("Starting...")
-        start_exploration(percentage, delay)
+        execute_exploration(percentage, delay)
         self.flush()
 
-class StartSpHandler(tornado.web.RequestHandler):
+"""start handler for shortest path"""
+class StartSPathHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(self):
         self.write("Starting...")
-        start_sp_to_goal()
+        execute_sPath()
         self.flush()
 
+"""stop handler for request"""
 class StopHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(self):
         global started
-        inform("Exploration stopped!")
+        inform("Stop exploration...")
         started = False
         self.flush()
-
-
-        global f
+        
+        global log
         sys.stdout = orig_stdout
-        f.close()
+        log.close()
 
+"""the web application UI"""
 app = tornado.web.Application([
     (r'/', IndexHandler),
     (r'/ws', WebSocketHandler),
     (r'/start/(.*)/(.*)', StartHandler),
-    (r'/start_sp/', StartSpHandler),
+    (r'/start_sp/', StartSPathHandler),
     (r'/stop/', StopHandler)
 ])
-
-
-
-
 
 def tick(step):
     for key in clients:
@@ -166,7 +155,6 @@ def tick(step):
         message['map'] = robot.explored_map
         clients[key]['object'].write_message(json.dumps(message))
 
-
 def inform(string):
     print(string)
     for key in clients:
@@ -176,64 +164,61 @@ def inform(string):
         message['info'] = string
         clients[key]['object'].write_message(json.dumps(message))
 
-def exploration(exp):
+"""shortest path from goal to start"""
+def sPath_to_start(sequence):
     global started
-    if not started:
-        return False
-
-    global sensor_list
-    cur = exp.getRealTimeMap(sensor_list, robot.explored_map)
-    if not cur[1]:
-        robot.step(cur[0])
-        print(robot.current)
-        sensor_list = robot.get_sensors()
-        delay_call(exploration, exp)
-    else:
-        inform("Exploration done!")
-        inform("descriptor1:")
-        inform(robot.descriptor_one())
-        inform("descriptor2:")
-        inform(robot.descriptor_two())
-
-
-        sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.start)
-        sp_list = sp.shortest_path(-1)
-        sp_sequence = sp_list['trim_seq']
-        sp_sequence.reverse() # will pop from the back
-        inform(sp_sequence)
-
-        # call sp to start
-        delay_call(sp_to_start, sp_sequence)
-
-# @delay(delay_time)
-def sp_to_start(sequence):
-    global started
-    global exp_done
+    global completeExplore
     if not started:
         return False
     if len(sequence) == 0:
-        exp_done = True
-        inform("Gone back to start!")
+        completeExplore = True
+        inform("Return to start...")
         return False
     choice = sequence.pop()
     robot.step(choice, -1)
     print(choice, ': ', robot.direction)
-    delay_call(sp_to_start, sequence)
+    delay_call(sPath_to_start, sequence)
 
-
-# @delay(delay_time)
-def sp_to_goal(sequence):
+"""shortest path from start to goal"""
+def sPath_to_goal(sequence):
     global started
-    if not started:
-        return False
+#     if not started:
+#         return False
     if len(sequence) == 0:
-        inform("ShortestPath done!")
+        inform("Complete shortestPath...")
         started = False
         return False
     choice = sequence.pop()
     robot.step(choice, 9)
     print(choice, ': ', robot.direction)
-    delay_call(sp_to_goal, sequence)
+    delay_call(sPath_to_goal, sequence)
+    
+def exploration(explore):
+    global started
+    if not started:
+        return False
+
+    global sensors
+    cur = explore.getRealTimeMap(sensors, robot.explored_map)
+    if not cur[1]:
+        robot.step(cur[0])
+        print(robot.current)
+        sensors = robot.get_sensors()
+        delay_call(exploration, explore)
+    else:
+        inform("Complete exploration...")
+        inform("Descriptor1:")
+        inform(robot.descriptor_one())
+        inform("Descriptor2:")
+        inform(robot.descriptor_two())
+
+        sPath = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.start)
+        sPath_list = sPath.shortestPath(-1)
+        sPath_sequence = sPath_list['trim_seq']
+        sPath_sequence.reverse() 
+        inform(sPath_sequence)
+
+        delay_call(sPath_to_start, sPath_sequence)
 
 if __name__ == '__main__':
     parse_command_line()
@@ -242,9 +227,7 @@ if __name__ == '__main__':
     old_subscribers = zope.event.subscribers[:]
     del zope.event.subscribers[:]
     zope.event.subscribers.append(tick)
-
     print("Listening to http://localhost:" + str(options.port) + "...")
-    # tornado.ioloop.IOLoop.instance().start()
-    t3 = FuncThread(tornado.ioloop.IOLoop.instance().start)
-    t3.start()
-    t3.join()
+    t = FuncThread(tornado.ioloop.IOLoop.instance().start)
+    t.start()
+    t.join()

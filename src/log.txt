@@ -1,223 +1,226 @@
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 1 - 1 : (17, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 1 - 1 : (17, 1)
+[Tornado] simulate.py > step > 1 
 [17, 1]
 Exploration started!
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 2 - D : (17, 1)
-[17, 1]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 3 - 1 : (17, 2)
-[Tornado] sim.py > action > 1 
-[17, 2]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 4 - 1 : (17, 3)
-[Tornado] sim.py > action > 1 
-[17, 3]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 5 - 1 : (17, 4)
-[Tornado] sim.py > action > 1 
-[17, 4]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 6 - A : (17, 4)
-[17, 4]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 7 - 1 : (16, 4)
-[Tornado] sim.py > action > 1 
-[16, 4]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 8 - 1 : (15, 4)
-[Tornado] sim.py > action > 1 
-[15, 4]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 9 - D : (15, 4)
-[15, 4]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 10 - 1 : (15, 5)
-[Tornado] sim.py > action > 1 
-[15, 5]
-[Tornado | Fri Feb 26 13:23:54 2016] exploration.py > 11 - 1 : (15, 6)
-[Tornado] sim.py > action > 1 
-[15, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 12 - A : (15, 6)
-[15, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 13 - 1 : (14, 6)
-[Tornado] sim.py > action > 1 
-[14, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 14 - 1 : (13, 6)
-[Tornado] sim.py > action > 1 
-[13, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 15 - 1 : (12, 6)
-[Tornado] sim.py > action > 1 
-[12, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 16 - 1 : (11, 6)
-[Tornado] sim.py > action > 1 
-[11, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 17 - A : (11, 6)
-[11, 6]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 18 - 1 : (11, 5)
-[Tornado] sim.py > action > 1 
-[11, 5]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 19 - 1 : (11, 4)
-[Tornado] sim.py > action > 1 
-[11, 4]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 20 - 1 : (11, 3)
-[Tornado] sim.py > action > 1 
-[11, 3]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 21 - 1 : (11, 2)
-[Tornado] sim.py > action > 1 
-[11, 2]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 22 - 1 : (11, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 2 - 1 : (16, 1)
+[Tornado] simulate.py > step > 1 
+[16, 1]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 3 - 1 : (15, 1)
+[Tornado] simulate.py > step > 1 
+[15, 1]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 4 - 1 : (14, 1)
+[Tornado] simulate.py > step > 1 
+[14, 1]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 5 - 1 : (13, 1)
+[Tornado] simulate.py > step > 1 
+[13, 1]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 6 - 1 : (12, 1)
+[Tornado] simulate.py > step > 1 
+[12, 1]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 7 - 1 : (11, 1)
+[Tornado] simulate.py > step > 1 
 [11, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 23 - D : (11, 1)
-[11, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 24 - 1 : (10, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 8 - 1 : (10, 1)
+[Tornado] simulate.py > step > 1 
 [10, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 25 - 1 : (9, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 9 - 1 : (9, 1)
+[Tornado] simulate.py > step > 1 
 [9, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 26 - 1 : (8, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 10 - 1 : (8, 1)
+[Tornado] simulate.py > step > 1 
 [8, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 27 - 1 : (7, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 11 - 1 : (7, 1)
+[Tornado] simulate.py > step > 1 
 [7, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 28 - 1 : (6, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 12 - 1 : (6, 1)
+[Tornado] simulate.py > step > 1 
 [6, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 29 - 1 : (5, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 13 - 1 : (5, 1)
+[Tornado] simulate.py > step > 1 
 [5, 1]
-[Tornado | Fri Feb 26 13:23:55 2016] exploration.py > 30 - 1 : (4, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 14 - 1 : (4, 1)
+[Tornado] simulate.py > step > 1 
 [4, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 31 - 1 : (3, 1)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 15 - 1 : (3, 1)
+[Tornado] simulate.py > step > 1 
 [3, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 32 - 1 : (2, 1)
-[Tornado] sim.py > action > 1 
-[2, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 33 - 1 : (1, 1)
-[Tornado] sim.py > action > 1 
-[1, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 34 - D : (1, 1)
-[1, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 35 - 1 : (1, 2)
-[Tornado] sim.py > action > 1 
-[1, 2]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 36 - 1 : (1, 3)
-[Tornado] sim.py > action > 1 
-[1, 3]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 37 - 1 : (1, 4)
-[Tornado] sim.py > action > 1 
-[1, 4]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 38 - D : (1, 4)
-[1, 4]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 39 - 1 : (2, 4)
-[Tornado] sim.py > action > 1 
-[2, 4]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 40 - D : (2, 4)
-[2, 4]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 41 - 1 : (2, 3)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 16 - D : (3, 1)
+[3, 1]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 17 - 1 : (3, 2)
+[Tornado] simulate.py > step > 1 
+[3, 2]
+[Tornado | Sun Feb 28 17:06:40 2016] explore.py > 18 - 1 : (3, 3)
+[Tornado] simulate.py > step > 1 
+[3, 3]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 19 - A : (3, 3)
+[3, 3]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 20 - 1 : (2, 3)
+[Tornado] simulate.py > step > 1 
 [2, 3]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 42 - 1 : (2, 2)
-[Tornado] sim.py > action > 1 
-[2, 2]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 43 - 1 : (2, 1)
-[Tornado] sim.py > action > 1 
-[2, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 44 - A : (2, 1)
-[2, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 45 - 1 : (3, 1)
-[Tornado] sim.py > action > 1 
-[3, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 46 - 1 : (4, 1)
-[Tornado] sim.py > action > 1 
-[4, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 47 - 1 : (5, 1)
-[Tornado] sim.py > action > 1 
-[5, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 48 - 1 : (6, 1)
-[Tornado] sim.py > action > 1 
-[6, 1]
-[Tornado | Fri Feb 26 13:23:56 2016] exploration.py > 49 - A : (6, 1)
-[6, 1]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 50 - 1 : (6, 2)
-[Tornado] sim.py > action > 1 
-[6, 2]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 51 - 1 : (6, 3)
-[Tornado] sim.py > action > 1 
-[6, 3]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 52 - 1 : (6, 4)
-[Tornado] sim.py > action > 1 
-[6, 4]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 53 - 1 : (6, 5)
-[Tornado] sim.py > action > 1 
-[6, 5]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 54 - 1 : (6, 6)
-[Tornado] sim.py > action > 1 
-[6, 6]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 55 - 1 : (6, 7)
-[Tornado] sim.py > action > 1 
-[6, 7]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 56 - 1 : (6, 8)
-[Tornado] sim.py > action > 1 
-[6, 8]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 57 - 1 : (6, 9)
-[Tornado] sim.py > action > 1 
-[6, 9]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 58 - 1 : (6, 10)
-[Tornado] sim.py > action > 1 
-[6, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 59 - A : (6, 10)
-[6, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 60 - 1 : (5, 10)
-[Tornado] sim.py > action > 1 
-[5, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 61 - 1 : (4, 10)
-[Tornado] sim.py > action > 1 
-[4, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 62 - 1 : (3, 10)
-[Tornado] sim.py > action > 1 
-[3, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 63 - 1 : (2, 10)
-[Tornado] sim.py > action > 1 
-[2, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 64 - A : (2, 10)
-[2, 10]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 65 - 1 : (2, 9)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 21 - 1 : (1, 3)
+[Tornado] simulate.py > step > 1 
+[1, 3]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 22 - D : (1, 3)
+[1, 3]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 23 - 1 : (1, 4)
+[Tornado] simulate.py > step > 1 
+[1, 4]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 24 - 1 : (1, 5)
+[Tornado] simulate.py > step > 1 
+[1, 5]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 25 - 1 : (1, 6)
+[Tornado] simulate.py > step > 1 
+[1, 6]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 26 - 1 : (1, 7)
+[Tornado] simulate.py > step > 1 
+[1, 7]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 27 - D : (1, 7)
+[1, 7]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 28 - 1 : (2, 7)
+[Tornado] simulate.py > step > 1 
+[2, 7]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 29 - A : (2, 7)
+[2, 7]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 30 - 1 : (2, 8)
+[Tornado] simulate.py > step > 1 
+[2, 8]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 31 - 1 : (2, 9)
+[Tornado] simulate.py > step > 1 
 [2, 9]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 66 - D : (2, 9)
-[2, 9]
-[Tornado | Fri Feb 26 13:23:57 2016] exploration.py > 67 - 1 : (1, 9)
-[Tornado] sim.py > action > 1 
-[1, 9]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 68 - D : (1, 9)
-[1, 9]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 69 - 1 : (1, 10)
-[Tornado] sim.py > action > 1 
-[1, 10]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 70 - 1 : (1, 11)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 32 - 1 : (2, 10)
+[Tornado] simulate.py > step > 1 
+[2, 10]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 33 - 1 : (2, 11)
+[Tornado] simulate.py > step > 1 
+[2, 11]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 34 - A : (2, 11)
+[2, 11]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 35 - 1 : (1, 11)
+[Tornado] simulate.py > step > 1 
 [1, 11]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 71 - 1 : (1, 12)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 36 - D : (1, 11)
+[1, 11]
+[Tornado | Sun Feb 28 17:06:41 2016] explore.py > 37 - 1 : (1, 12)
+[Tornado] simulate.py > step > 1 
 [1, 12]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 72 - 1 : (1, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 38 - 1 : (1, 13)
+[Tornado] simulate.py > step > 1 
 [1, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 73 - D : (1, 13)
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 39 - D : (1, 13)
 [1, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 74 - 1 : (2, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 40 - 1 : (2, 13)
+[Tornado] simulate.py > step > 1 
 [2, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 75 - 1 : (3, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 41 - 1 : (3, 13)
+[Tornado] simulate.py > step > 1 
 [3, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 76 - 1 : (4, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 42 - 1 : (4, 13)
+[Tornado] simulate.py > step > 1 
 [4, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 77 - 1 : (5, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 43 - 1 : (5, 13)
+[Tornado] simulate.py > step > 1 
 [5, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 78 - 1 : (6, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 44 - 1 : (6, 13)
+[Tornado] simulate.py > step > 1 
 [6, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 79 - 1 : (7, 13)
-[Tornado] sim.py > action > 1 
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 45 - 1 : (7, 13)
+[Tornado] simulate.py > step > 1 
 [7, 13]
-[Tornado | Fri Feb 26 13:23:58 2016] exploration.py > 80 - 1
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 46 - 1 : (8, 13)
+[Tornado] simulate.py > step > 1 
+[8, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 47 - 1 : (9, 13)
+[Tornado] simulate.py > step > 1 
+[9, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 48 - 1 : (10, 13)
+[Tornado] simulate.py > step > 1 
+[10, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 49 - 1 : (11, 13)
+[Tornado] simulate.py > step > 1 
+[11, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 50 - 1 : (12, 13)
+[Tornado] simulate.py > step > 1 
+[12, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 51 - 1 : (13, 13)
+[Tornado] simulate.py > step > 1 
+[13, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 52 - 1 : (14, 13)
+[Tornado] simulate.py > step > 1 
+[14, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 53 - 1 : (15, 13)
+[Tornado] simulate.py > step > 1 
+[15, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 54 - 1 : (16, 13)
+[Tornado] simulate.py > step > 1 
+[16, 13]
+[Tornado | Sun Feb 28 17:06:42 2016] explore.py > 55 - D : (16, 13)
+[16, 13]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 56 - 1 : (16, 12)
+[Tornado] simulate.py > step > 1 
+[16, 12]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 57 - 1 : (16, 11)
+[Tornado] simulate.py > step > 1 
+[16, 11]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 58 - A : (16, 11)
+[16, 11]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 59 - 1 : (17, 11)
+[Tornado] simulate.py > step > 1 
+[17, 11]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 60 - 1 : (18, 11)
+[Tornado] simulate.py > step > 1 
+[18, 11]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 61 - D : (18, 11)
+[18, 11]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 62 - 1 : (18, 10)
+[Tornado] simulate.py > step > 1 
+[18, 10]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 63 - 1 : (18, 9)
+[Tornado] simulate.py > step > 1 
+[18, 9]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 64 - 1 : (18, 8)
+[Tornado] simulate.py > step > 1 
+[18, 8]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 65 - 1 : (18, 7)
+[Tornado] simulate.py > step > 1 
+[18, 7]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 66 - D : (18, 7)
+[18, 7]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 67 - 1 : (17, 7)
+[Tornado] simulate.py > step > 1 
+[17, 7]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 68 - A : (17, 7)
+[17, 7]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 69 - 1 : (17, 6)
+[Tornado] simulate.py > step > 1 
+[17, 6]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 70 - 1 : (17, 5)
+[Tornado] simulate.py > step > 1 
+[17, 5]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 71 - 1 : (17, 4)
+[Tornado] simulate.py > step > 1 
+[17, 4]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 72 - 1 : (17, 3)
+[Tornado] simulate.py > step > 1 
+[17, 3]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 73 - A : (17, 3)
+[17, 3]
+[Tornado | Sun Feb 28 17:06:43 2016] explore.py > 74 - 1 : (18, 3)
+[Tornado] simulate.py > step > 1 
+[18, 3]
+[Tornado | Sun Feb 28 17:06:44 2016] explore.py > 75 - D : (18, 3)
+[18, 3]
+[Tornado | Sun Feb 28 17:06:44 2016] explore.py > 76 - 1 : (18, 2)
+[Tornado] simulate.py > step > 1 
+[18, 2]
+[Tornado | Sun Feb 28 17:06:44 2016] explore.py > 77 - 1 : (18, 1)
+[Tornado] simulate.py > step > 1 
+[18, 1]
+[Tornado | Sun Feb 28 17:06:44 2016] explore.py > 78 - None : (18, 1)
+Exploration done!
+descriptor1:
+fffffffffffffffffffffdfffbfff7ff8ff80ff01ff1ffefffdfffbfffffffffffffffffffff
+descriptor2:
+0400000800000201c0000400100040040c0c0800800200080000e01000000400000800
+[]
+Gone back to start!
+Exploration stopped!

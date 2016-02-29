@@ -1,173 +1,171 @@
+
 """
-0: unexplored
-1: explored
+Map description: 
+0: unexplored cell
+1: explored cell
 2: obstacle
 3: robot body
 4: robot head
 5: robot center
-6: start
-7: goal
+6: start zone
+7: goal zone
 8: explored path
-9: optimum path
+9: shortest path
 """
-from algo.shortestPath import ShortestPath
-from algo.constants import *
+
 import random
 import time
+from algo.shortestPath import ShortestPath
+from algo.constants import *
 
 class Exploration(object):
-    """docstring for Exploration"""
 
-    realTimeMap = []
-    sensorList = []
-    pathTaken = []
-    repeatedArea = 0
-    robotPrevMovement = "O"
-    robotCurMovement = "O"
+    """description for map & information tracked for robot"""
+    realTimeMap = []     
+    pathTaken = [] 
+    sensors = [] 
+    
+    preStep = "O"
+    curStep = "O"
+    centerX = 1
+    centerY = 18
+    directionX = 1
+    directionY = 17
+    
+    repeatedCell = 0
+    exploredCell = 0
+    count = 0 
+    terminateRobot= False
 
-    robotCenterX = 1
-    robotCenterY = 18
-    robotDirectionX = 1
-    robotDirectionY = 17
-    repeatedArea = 0
-    exploredArea = 0
-    cnt = 0
-    robotBreak = False
-
-    def __init__(self, _exploredPercentage):
+    def __init__(self, _coverageFigure):
         super(Exploration, self).__init__()
-        global cnt
-        cnt = 0
-
+        
         global realTimeMap
-        global sensorList
         global pathTaken
-        global robotPrevMovement
-        global robotCurMovement
-        global robotCenterX
-        global robotCenterY
-        global robotDirectionX
-        global robotDirectionY
-        global repeatedArea
-        global exploredPercentage
-        global robotBreak
-        global exploredArea
-        global spCounter
-        global spList
-        global repeatedTreshold
-        global isFirstStart
-        repeatedTreshold = 10#6#5#20#15#10# 30
-        isFirstStart = True
-        spList = []
-        spCounter = 0
-        robotBreak = False
-        exploredArea = 0
-        exploredPercentage = _exploredPercentage
-
-        # realTimeMap[0] = bottom row
-        # realTimeMap[19] = top row
-        realTimeMap = []
-
-        # sensorList[0] = direction of robot (W-Facing up, S-Facing down, A-facing left, D-facing right)
-        # sensorList[1] = frontleft
-        # sensorList[2] = frontcenter
-        # sensorList[3] = frontright
-        # sensorList[4] = left
-        # sensorList[5] = right
-        # sensorList[6] = bottomleft
-        sensorList = []
+        global sensors 
+        
+        global preStep
+        global curStep
+        global centerX
+        global centerY
+        global directionX
+        global directionY
+        
+        global repeatedCell
+        global exploredCell
+        global count
+        global terminateRobot
+              
+        global sPathList #shortest path list
+        global sPathCounter   
+        global repeatedTorlerence
+        global isInitialStart
+        global coverageFigure 
+        
+        """0 for bottom row, 19 for top row"""
+        realTimeMap = []     
         pathTaken = []
-
-        repeatedArea = 0
-        robotPrevMovement = "O"
-        robotCurMovement = "O"
-
-        robotCenterX = 1
-        robotCenterY = 18
-        robotDirectionX = 1
-        robotDirectionY = 17
-
+        
+        sensors = []
+               
+        preStep = "O"
+        curStep = "O"
+        centerX = 1
+        centerY = 18
+        directionX = 1
+        directionY = 17
+        
+        repeatedCell = 0
+        exploredCell = 0
+        count = 0
+        terminateRobot = False
+        
+        sPathList = []
+        sPathCounter = 0
+        repeatedTorlerence = 10 #6, 5, 20, 15, 30...
+        isInitialStart = True 
+        coverageFigure= _coverageFigure
+        
+        """initial map"""
         for i in range (0,20):
             Row = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
             realTimeMap.append(Row)
 
-        # set robot initial position as explored
-        directions = [[0, 0], [0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
-        for direction in directions:
-            realTimeMap[robotCenterY + direction[0]][robotCenterX + direction[1]] = 1
+        """set robot's initial position as 1"""
+        matrix = [[0, 0], [0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
+        for pos in matrix:
+            realTimeMap[centerY + pos[0]][centerX + pos[1]] = 1
 
 
-    def main(self, sensors, explored_map):
-        def normalizeY(i):
+    def main(self, srs, explored_map):
+        """translate (x,y) to be within (15,20)"""
+        def normalizeY(i): #constraint for 20 rows 
             if 0 <= i <= 19:
                 return i
             elif i < 0:
                 return 0
             else:
                 return 19
-        def normalizeX(j):
+        def normalizeX(j): #constraint for 15 columns 
             if 0 <= j <= 14:
                 return j
             elif j < 0:
                 return 0
             else:
                 return 14
-        def manhattan(_from, _to):
-            return abs(_from[0] - _to[0]) + abs(_from[1] - _to[1])
-        def okay(i, j):
+        def manhattanDistance(_start, _end):
+            return abs(_start[0] - _end[0]) + abs(_start[1] - _end[1])
+        def isfree(i, j):  
+            global centerX
+            global centerY
             global realTimeMap
-            global robotCenterX
-            global robotCenterY
-            if realTimeMap[i][j] == 0 or realTimeMap[i][j] == 2:
+            if realTimeMap[i][j] == 0 or realTimeMap[i][j] == 2: #check center is not unexplored or obstacle
                 return -INF
-            directions = [[0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
-            for direction in directions:
-                if realTimeMap[i + direction[0]][j + direction[1]] == 2:
+            matrix = [[0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
+            for pos in matrix: 
+                if realTimeMap[i + pos[0]][j + pos[1]] == 2:#check the adjacent 8 cell is not obstacle
                     return -INF
-
-
-            directions = [[0, 2], [1, 2], [-1, 2], [0, -2], [1, -2], [-1, -2], [-2, 0], [-2, 1], [-2, -1], [2, 0], [2, -1], [2, 1]]
-            dist = manhattan([robotCenterY, robotCenterX], [i, j])
-            cnt = 0
-            for direction in directions:
-                temp = realTimeMap[normalizeY(i + direction[0])][normalizeX(j + direction[1])]
-                if temp == 0:
-                    cnt += 2
-            return cnt * cnt * cnt - dist
-
-
+            distance = manhattanDistance([centerY, centerX], [i, j])
+            matrix = [[0, 2], [1, 2], [-1, 2], [0, -2], [1, -2], [-1, -2], [-2, 0], [-2, 1], [-2, -1], [2, 0], [2, -1], [2, 1]]
+            count = 0
+            for pos in matrix:
+                cellValue = realTimeMap[normalizeY(i + pos[0])][normalizeX(j + pos[1])]
+                if cellValue == 0:  #check 4 facing side cells(12) are unexplored 
+                    count = count + 2
+            return count * count * count - distance 
 
         global realTimeMap
-        global sensorList
         global pathTaken
-        global robotCenterX
-        global robotPrevMovement
-        global robotCurMovement
-        global robotCenterX
-        global robotCenterY
-        global robotDirectionX
-        global robotDirectionY
-        global repeatedArea
-        global exploredPercentage
-        global robotBreak
-        global exploredArea
-        global isFirstStart
+        global sensors 
+        
+        global preStep
+        global curStep
+        global centerX
+        global centerY
+        global directionX
+        global directionY
+        
+        global repeatedCell
+        global exploredCell
+        global terminateRobot
+              
+        global sPathList   
+        global sPathCounter  
+        global repeatedTorlerence
+        global isInitialStart
+        global coverageFigure 
 
-        global spList
-        global spCounter
-        global repeatedTreshold
-
-
-
+        """set robot's direction and center"""
         for i in range(20):
             for j in range(15):
-                if explored_map[i][j] == 4:
-                    robotDirectionY = i
-                    robotDirectionX = j
-                elif explored_map[i][j] == 5:
-                    robotCenterY = i
-                    robotCenterX = j
+                if explored_map[i][j] ==4: #head
+                    directionY = i
+                    directionX = j
+                elif explored_map[i][j] == 5: #center 
+                    centerY = i
+                    centerX = j
 
+        """set all explored cells in real map to 1"""
         for i in range(20):
             for j in range(15):
                 val = explored_map[i][j]
@@ -176,308 +174,291 @@ class Exploration(object):
 
                 realTimeMap[i][j] = val
 
-        #set robot starting position
-        realTimeMap[robotCenterY][robotCenterX] = 5
-        realTimeMap[robotDirectionY][robotDirectionX] = 4
-        # print(robotCenterY, robotCenterX, ": ", robotDirectionY, robotDirectionX)
-
-        encounteredStart = False
-
-        if (robotCenterY, robotCenterX) == (18, 1):
-            if not isFirstStart:
-                encounteredStart = True
-                robotBreak = True
-                robotCurMovement = None
+        """set robot's starting position in real map"""
+        realTimeMap[centerY][centerX] = 5
+        realTimeMap[directionY][directionX] = 4
+        
+        """check when robot is at the starting position"""
+        atStart = False
+        if (centerY, centerX) == (18, 1):
+            if not isInitialStart:
+                atStart = True
+                terminateRobot = True
+                curStep = None
         else:
-            isFirstStart = False
+            isInitialStart = False
 
-        if not encounteredStart or (exploredArea * 2 <= exploredPercentage * 3):
-            exploredArea = 0
+        if not atStart or (exploredCell * 2 <= coverageFigure * 3):
+            exploredCell = 0
 
-            self.callAllMethods(sensors, explored_map)
-            if len(spList) <= 0:
-                for tup in pathTaken:
-                    if tup == (robotCenterY, robotCenterX, robotDirectionY, robotDirectionX):
-                        repeatedArea = repeatedArea + 1
+            self.takeStep(srs, explored_map)
+            if len(sPathList) <= 0:
+                for pos in pathTaken:
+                    if pos == (centerY, centerX, directionY, directionX):
+                        repeatedCell = repeatedCell + 1
                         break
             for i in range(0,20):
                 for j in range(0,15):
                     if realTimeMap[i][j] != 0:
-                        exploredArea = exploredArea + 1
-        if repeatedArea >= repeatedTreshold: # and (exploredArea * 2 >= exploredPercentage * 3):
-            robotCurMovement = None
-            #### JUST GIVE UP AND GO BACK HOME :')
+                        exploredCell = exploredCell + 1
+        if repeatedCell >= repeatedTorlerence: 
+            """end exploration due to exceeding repeat Torlerence"""
+            curStep = None            
+            terminateRobot = True
 
-            robotBreak = True
+            if exploredCell >= coverageFigure * 3 or sPathCounter > 5:
+                """end exploration with satisfied result"""
+                terminateRobot = True
+            elif not terminateRobot:
+                """continue the exploration"""
+                rCenter = [centerY, centerX]
+                rDir = NORTH
 
-            if exploredArea >= exploredPercentage * 3 or spCounter > 5:
-                # good enough, break
-                robotBreak = True
-            elif not robotBreak:
+                if centerY > directionY:
+                    rDir = NORTH
+                elif centerY < directionY:
+                    rDir = SOUTH
+                elif centerX < directionX:
+                    rDir = EAST
+                elif centerX > directionX:
+                    rDir = WEST
 
-                # don't give up!
-                rcurrent = [robotCenterY, robotCenterX]
-                rdirection = NORTH
-
-                if robotCenterY > robotDirectionY:
-                    rdirection = NORTH
-                elif robotCenterY < robotDirectionY:
-                    rdirection = SOUTH
-                elif robotCenterX < robotDirectionX:
-                    rdirection = EAST
-                elif robotCenterX > robotDirectionX:
-                    rdirection = WEST
-
-                dest = [10, 8]
-                dest_candidate = []
+                """decide a temporary goal for robot to achieve"""
+                best_tempGoal = [10, 8] #center of the map
+                best_tempGoal_val = -INF
+                
+                possible_tempGoals = []
                 for i in range(1, 19):
                     for j in range(1, 14):
-                        v = okay(i, j)
-                        if v > -INF:
-                            dest_candidate.append([[i, j], v])
-                best_candidate_v = -INF
-                best_candidate = [10, 8]
-                for cand in dest_candidate:
-                    if cand[1] > best_candidate_v:
-                        best_candidate_v = cand[1]
-                        best_candidate = cand[0]
-                #print(dest_candidate)
+                        val = isfree(i, j)
+                        if val > -INF:
+                            possible_tempGoals.append([[i, j], val])
+                
+                for goal in possible_tempGoals:
+                    if goal[1] > best_tempGoal_val:
+                        best_tempGoal_val = goal[1]
+                        best_tempGoal = goal[0]
+                
+                tempGoal = best_tempGoal
 
-                print("[Tornado | %s] exploration.py > dest_candidate > %s" % (time.ctime(time.time()), dest_candidate))
-                dest = best_candidate
+                """execute shortest path"""
+                sPath = ShortestPath(realTimeMap, rDir, rCenter, tempGoal)
+                sPath_list = sPath.shortest_path(8)
+                sPath_sequence = sPath_list['sequence']
+                sPath_sequence.reverse()
+                sPathList = sPath_sequence
+                                
+                sPathCounter = sPathCounter + 1
+                repeatedCell = 0
+                repeatedTorlerence = 3
 
-                sp = ShortestPath(realTimeMap, rdirection, rcurrent, dest)
-                sp_list = sp.sp(8)
-                sp_sequence = sp_list['sequence']
-                sp_sequence.reverse()
-                spList = sp_sequence
-                """
-                print("--------------")
-                print(rdirection)
-                print(rcurrent)
-                print(dest)
-                print(spList)
-                print("--------------")
-                """
-                #print(spList)
-                print("[Tornado | %s] exploration.py > spList > %s" % (time.ctime(time.time()), spList))
-                spCounter += 1
-                repeatedArea = 0
-                repeatedTreshold = 3
+    
 
-        # THIS IS THE CULPRIT, DO NOT MARK realTimeMap with 8 OR ELSE robotMovementAnalyses will fail :)
-        # for tup in pathTaken:
-        #   if realTimeMap[tup[0]][tup[1]] != 4 and realTimeMap[tup[0]][tup[1]] != 5:
-        #       realTimeMap[tup[0]][tup[1]] = 8
+    def getSensor(self, cenX, cenY, dirX, dirY):
+        """       
+        description of sensors: 
+        1: front-left            
+        2: front-center
+        3: front-right
+        4: left
+        5: right
+        6: bottom-left
+        0: robot facing direction(W-up,A-left,D-right,S-down)
+        """
+        results = []
 
+        if (cenX == dirX) and (dirY < cenY):
+            results.append([NORTH])
+        elif (cenX == dirX) and (dirY > cenY):
+            results.append([SOUTH])
+        elif (cenY == dirY) and (dirX < cenX):
+            results.append([WEST])
+        elif (cenY == dirY) and (dirX > cenX):
+            results.append([EAST])
+        return results
 
+    def decideStep(self, realTimeMap, cenX, cenY, direction, preStep, sensors):
 
-    def callAllMethods(self, sensors, explored_map):
-        global realTimeMap
-        global sensorList
-        global pathTaken
-        global robotCenterX
-        global robotPrevMovement
-        global robotCurMovement
-        global robotCenterX
-        global robotCenterY
-        global robotDirectionX
-        global robotDirectionY
-
-        sensorList = self.getSensor(robotCenterX, robotCenterY, robotDirectionX, robotDirectionY)
-        sensors.insert(0, sensorList[0])
-        sensorList = sensors
-
-
-        for i in range(20):
-            for j in range(15):
-                val = explored_map[i][j]
-                if val >= 3:
-                    val = 1
-
-                realTimeMap[i][j] = val
-
-        #set robot starting position
-        realTimeMap[robotCenterY][robotCenterX] = 5
-        realTimeMap[robotDirectionY][robotDirectionX] = 4
-        # realTimeMap = self.updateRealTimeMap(realTimeMap, sensorList, robotCenterX, robotCenterY)
-
-        robotCurMovement = self.robotMovementAnalyses(realTimeMap, robotCenterX, robotCenterY, sensorList[0][0], robotPrevMovement, sensorList)
-        robotPrevMovement = robotCurMovement
-        if robotCurMovement == FORWARD:
-            pathTaken.append((robotCenterY, robotCenterX, robotDirectionY, robotDirectionX))
-        #print (robotCurMovement)
-        # realTimeMap = self.executeRobotMovement(realTimeMap, robotCenterX, robotCenterY, sensorList[0][0], robotCurMovement)
-
-        if sensorList[0][0] == NORTH:
-            if robotCurMovement == RIGHT:
-                robotDirectionX = robotDirectionX + 1
-                robotDirectionY = robotDirectionY + 1
-            elif robotCurMovement == FORWARD:
-                robotCenterY = robotCenterY - 1
-                robotDirectionY = robotDirectionY - 1
-            elif robotCurMovement == LEFT:
-                robotDirectionX = robotDirectionX - 1
-                robotDirectionY = robotDirectionY + 1
-        if sensorList[0][0] == SOUTH:
-            if robotCurMovement == RIGHT:
-                robotDirectionX = robotDirectionX - 1
-                robotDirectionY = robotDirectionY - 1
-            elif robotCurMovement == FORWARD:
-                robotCenterY = robotCenterY + 1
-                robotDirectionY = robotDirectionY + 1
-            elif robotCurMovement == LEFT:
-                robotDirectionX = robotDirectionX + 1
-                robotDirectionY = robotDirectionY - 1
-        if sensorList[0][0] == WEST:
-            if robotCurMovement == RIGHT:
-                robotDirectionX = robotDirectionX + 1
-                robotDirectionY = robotDirectionY - 1
-            elif robotCurMovement == FORWARD:
-                robotCenterX = robotCenterX -1
-                robotDirectionX = robotDirectionX - 1
-            elif robotCurMovement == LEFT:
-                robotDirectionX = robotDirectionX + 1
-                robotDirectionY = robotDirectionY + 1
-        if sensorList[0][0] == EAST:
-            if robotCurMovement == RIGHT:
-                robotDirectionX = robotDirectionX - 1
-                robotDirectionY = robotDirectionY + 1
-            elif robotCurMovement == FORWARD:
-                robotCenterX = robotCenterX + 1
-                robotDirectionX = robotDirectionX + 1
-            elif robotCurMovement == LEFT:
-                robotDirectionX = robotDirectionX - 1
-                robotDirectionY = robotDirectionY - 1
-
-
-    def getSensor(self, centerX, centerY, directionX, directionY):
-        # returnValue[0] = direction of robot (W-Facing up, S-Facing down, A-facing left, D-facing right)
-        # returnValue[1] = frontleft
-        # returnValue[2] = frontcenter
-        # returnValue[3] = frontright
-        # returnValue[4] = left
-        # returnValue[5] = right
-        # returnValue[6] = bottomleft
-        returnValue = []
-
-        if (centerX == directionX) and (directionY < centerY):
-            returnValue.append([NORTH])
-        elif (centerX == directionX) and (directionY > centerY):
-            returnValue.append([SOUTH])
-        elif (centerY == directionY) and (directionX < centerX):
-            returnValue.append([WEST])
-        elif (centerY == directionY) and (directionX > centerX):
-            returnValue.append([EAST])
-        return returnValue
-
-    def robotMovementAnalyses(self, realTimeMap, CenterX, CenterY, direction, prevMov, sensorList):
-
-        def checkRealTimeMap(y, x):
+        def validateMap(y, x):
             if 0 <= y < 20 and 0 <= x < 15 and realTimeMap[y][x] == 1:
                 return True
             return False
 
-        global spList
-        if len(spList) > 0:
-            resultMovement = spList.pop()
-            return resultMovement
+        global sPathList
+        if len(sPathList) > 0:
+            step = sPathList.pop()
+            return step
 
         if direction == NORTH:
-            if sensorList[4][0] != None and checkRealTimeMap(CenterY-1, CenterX-2) and checkRealTimeMap(CenterY, CenterX-2) and checkRealTimeMap(CenterY+1, CenterX-2) and prevMov != LEFT:
-                resultMovement = LEFT
-            elif sensorList[1][0] != None and checkRealTimeMap(CenterY-2, CenterX-1) and checkRealTimeMap(CenterY-2, CenterX) and checkRealTimeMap(CenterY-2, CenterX+1):
-                resultMovement = FORWARD
-            elif sensorList[5][0] != None and checkRealTimeMap(CenterY-1, CenterX+2) and checkRealTimeMap(CenterY, CenterX+2) and checkRealTimeMap(CenterY+1, CenterX+2):
-                resultMovement = RIGHT
+            if sensors[4][0] != None and validateMap(cenY-1, cenX-2) and validateMap(cenY, cenX-2) and validateMap(cenY+1, cenX-2) and preStep != LEFT:
+                step = LEFT
+            elif sensors[1][0] != None and validateMap(cenY-2, cenX-1) and validateMap(cenY-2, cenX) and validateMap(cenY-2, cenX+1):
+                step = FORWARD
+            elif sensors[5][0] != None and validateMap(cenY-1, cenX+2) and validateMap(cenY, cenX+2) and validateMap(cenY+1, cenX+2):
+                step = RIGHT
             else:
-                resultMovement = LEFT
+                step = LEFT
         elif direction == SOUTH:
-            if sensorList[4][0] != None and checkRealTimeMap(CenterY-1, CenterX+2) and checkRealTimeMap(CenterY, CenterX+2) and checkRealTimeMap(CenterY+1, CenterX+2) and prevMov != LEFT:
-                resultMovement = LEFT
-            elif sensorList[1][0] != None and checkRealTimeMap(CenterY+2, CenterX-1) and checkRealTimeMap(CenterY+2, CenterX) and checkRealTimeMap(CenterY+2, CenterX+1):
-                resultMovement = FORWARD
-            elif sensorList[5][0] != None and checkRealTimeMap(CenterY-1, CenterX-2) and checkRealTimeMap(CenterY, CenterX-2) and checkRealTimeMap(CenterY+1, CenterX-2):
-                resultMovement = RIGHT
+            if sensors[4][0] != None and validateMap(cenY-1, cenX+2) and validateMap(cenY, cenX+2) and validateMap(cenY+1, cenX+2) and preStep != LEFT:
+                step = LEFT
+            elif sensors[1][0] != None and validateMap(cenY+2, cenX-1) and validateMap(cenY+2, cenX) and validateMap(cenY+2, cenX+1):
+                step = FORWARD
+            elif sensors[5][0] != None and validateMap(cenY-1, cenX-2) and validateMap(cenY, cenX-2) and validateMap(cenY+1, cenX-2):
+                step = RIGHT
             else:
-                resultMovement = LEFT
+                step = LEFT
         elif direction == WEST:
-            if sensorList[4][0] != None and checkRealTimeMap(CenterY+2, CenterX-1) and checkRealTimeMap(CenterY+2, CenterX) and checkRealTimeMap(CenterY+2, CenterX+1) and prevMov != LEFT:
-                resultMovement = LEFT
-            elif sensorList[1][0] != None and checkRealTimeMap(CenterY-1, CenterX-2) and checkRealTimeMap(CenterY, CenterX-2) and checkRealTimeMap(CenterY+1, CenterX-2):
-                resultMovement = FORWARD
-            elif sensorList[5][0] != None and checkRealTimeMap(CenterY-2, CenterX-1) and checkRealTimeMap(CenterY-2, CenterX) and checkRealTimeMap(CenterY-2, CenterX+1):
-                resultMovement = RIGHT
+            if sensors[4][0] != None and validateMap(cenY+2, cenX-1) and validateMap(cenY+2, cenX) and validateMap(cenY+2, cenX+1) and preStep != LEFT:
+                step = LEFT
+            elif sensors[1][0] != None and validateMap(cenY-1, cenX-2) and validateMap(cenY, cenX-2) and validateMap(cenY+1, cenX-2):
+                step = FORWARD
+            elif sensors[5][0] != None and validateMap(cenY-2, cenX-1) and validateMap(cenY-2, cenX) and validateMap(cenY-2, cenX+1):
+                step = RIGHT
             else:
-                resultMovement = LEFT
+                step = LEFT
         elif direction == EAST:
-            if sensorList[4][0] != None and checkRealTimeMap(CenterY-2, CenterX-1) and checkRealTimeMap(CenterY-2, CenterX) and checkRealTimeMap(CenterY-2, CenterX+1) and prevMov != LEFT:
-                resultMovement = LEFT
-            elif sensorList[1][0] != None and checkRealTimeMap(CenterY-1, CenterX+2) and checkRealTimeMap(CenterY, CenterX+2) and checkRealTimeMap(CenterY+1, CenterX+2):
-                resultMovement = FORWARD
-            elif sensorList[5][0] != None and checkRealTimeMap(CenterY+2, CenterX-1) and checkRealTimeMap(CenterY+2, CenterX) and checkRealTimeMap(CenterY+2, CenterX+1):
-                resultMovement = RIGHT
+            if sensors[4][0] != None and validateMap(cenY-2, cenX-1) and validateMap(cenY-2, cenX) and validateMap(cenY-2, cenX+1) and preStep != LEFT:
+                step = LEFT
+            elif sensors[1][0] != None and validateMap(cenY-1, cenX+2) and validateMap(cenY, cenX+2) and validateMap(cenY+1, cenX+2):
+                step = FORWARD
+            elif sensors[5][0] != None and validateMap(cenY+2, cenX-1) and validateMap(cenY+2, cenX) and validateMap(cenY+2, cenX+1):
+                step = RIGHT
             else:
-                resultMovement = LEFT
-        return resultMovement
+                step = LEFT
+        return step
+    
+    def takeStep(self, srs, explored_map):
+        global realTimeMap
+        global sensors
+        global pathTaken
+        global preStep
+        global curStep
+        global centerX
+        global centerY
+        global directionX
+        global directionY
 
-    def executeRobotMovement(self, realTimeMap, CenterX, CenterY, direction, movement):
+        sensors = self.getSensor(centerX, centerY, directionX, directionY)
+        srs.insert(0, sensors[0])
+        sensors = srs
+
+        """set all explored cell in real map to 1"""
+        for i in range(20):
+            for j in range(15):
+                val = explored_map[i][j]
+                if val >= 3:
+                    val = 1 
+                realTimeMap[i][j] = val                   
+                 
+        """set robot's starting position in real map"""
+        realTimeMap[centerY][centerX] = 5
+        realTimeMap[directionY][directionX] = 4
+
+        """move step and track taken path"""
+        curStep = self.decideStep(realTimeMap, centerX, centerY, sensors[0][0], preStep, sensors)
+        preStep = curStep
+        if curStep == FORWARD:
+            pathTaken.append((centerY, centerX, directionY, directionX))
+        
+        """update robot's head/center coordinations """
+        if sensors[0][0] == NORTH:
+            if curStep == RIGHT:
+                directionX = directionX + 1
+                directionY = directionY + 1
+            elif curStep == FORWARD:
+                centerY = centerY - 1
+                directionY = directionY - 1
+            elif curStep == LEFT:
+                directionX = directionX - 1
+                directionY = directionY + 1
+        if sensors[0][0] == SOUTH:
+            if curStep == RIGHT:
+                directionX = directionX - 1
+                directionY = directionY - 1
+            elif curStep == FORWARD:
+                centerY = centerY + 1
+                directionY = directionY + 1
+            elif curStep == LEFT:
+                directionX = directionX + 1
+                directionY = directionY - 1
+        if sensors[0][0] == WEST:
+            if curStep == RIGHT:
+                directionX = directionX + 1
+                directionY = directionY - 1
+            elif curStep == FORWARD:
+                centerX = centerX -1
+                directionX = directionX - 1
+            elif curStep == LEFT:
+                directionX = directionX + 1
+                directionY = directionY + 1
+        if sensors[0][0] == EAST:
+            if curStep == RIGHT:
+                directionX = directionX - 1
+                directionY = directionY + 1
+            elif curStep == FORWARD:
+                centerX = centerX + 1
+                directionX = directionX + 1
+            elif curStep == LEFT:
+                directionX = directionX - 1
+                directionY = directionY - 1
+
+    def updateMap(self, realTimeMap, cenX, cenY, direction, step):
+        """update real time map"""
         if direction == NORTH:
-            if movement == RIGHT:
-                realTimeMap[CenterY][CenterX+1] = 4
-                realTimeMap[CenterY-1][CenterX] = 1
-            elif movement == FORWARD:
-                realTimeMap[CenterY][CenterX] = 1
-                realTimeMap[CenterY-1][CenterX] = 5
-                realTimeMap[CenterY-2][CenterX] = 4
-            elif movement == LEFT:
-                realTimeMap[CenterY][CenterX-1] = 4
-                realTimeMap[CenterY-1][CenterX] = 1
+            if step == RIGHT:
+                realTimeMap[cenY][cenX+1] = 4
+                realTimeMap[cenY-1][cenX] = 1
+            elif step == FORWARD:
+                realTimeMap[cenY][cenX] = 1
+                realTimeMap[cenY-1][cenX] = 5
+                realTimeMap[cenY-2][cenX] = 4
+            elif step == LEFT:
+                realTimeMap[cenY][cenX-1] = 4
+                realTimeMap[cenY-1][cenX] = 1
         elif direction == SOUTH:
-            if movement == RIGHT:
-                realTimeMap[CenterY][CenterX-1] = 4
-                realTimeMap[CenterY+1][CenterX] = 1
-            elif movement == FORWARD:
-                realTimeMap[CenterY][CenterX] = 1
-                realTimeMap[CenterY+1][CenterX] = 5
-                realTimeMap[CenterY+2][CenterX] = 4
-            elif movement == LEFT:
-                realTimeMap[CenterY][CenterX+1] = 4
-                realTimeMap[CenterY+1][CenterX] = 1
+            if step == RIGHT:
+                realTimeMap[cenY][cenX-1] = 4
+                realTimeMap[cenY+1][cenX] = 1
+            elif step == FORWARD:
+                realTimeMap[cenY][cenX] = 1
+                realTimeMap[cenY+1][cenX] = 5
+                realTimeMap[cenY+2][cenX] = 4
+            elif step == LEFT:
+                realTimeMap[cenY][cenX+1] = 4
+                realTimeMap[cenY+1][cenX] = 1
         elif direction == WEST:
-            if movement == RIGHT:
-                realTimeMap[CenterY-1][CenterX] = 4
-                realTimeMap[CenterY][CenterX-1] = 1
-            elif movement == FORWARD:
-                realTimeMap[CenterY][CenterX] = 1
-                realTimeMap[CenterY][CenterX-1] = 5
-                realTimeMap[CenterY][CenterX-2] = 4
-            elif movement == LEFT:
-                realTimeMap[CenterY+1][CenterX] = 4
-                realTimeMap[CenterY][CenterX-1] = 1
+            if step == RIGHT:
+                realTimeMap[cenY-1][cenX] = 4
+                realTimeMap[cenY][cenX-1] = 1
+            elif step == FORWARD:
+                realTimeMap[cenY][cenX] = 1
+                realTimeMap[cenY][cenX-1] = 5
+                realTimeMap[cenY][cenX-2] = 4
+            elif step == LEFT:
+                realTimeMap[cenY+1][cenX] = 4
+                realTimeMap[cenY][cenX-1] = 1
         elif direction == EAST:
-            if movement == RIGHT:
-                realTimeMap[CenterY+1][CenterX] = 4
-                realTimeMap[CenterY][CenterX+1] = 1
-            elif movement == FORWARD:
-                realTimeMap[CenterY][CenterX] = 1
-                realTimeMap[CenterY][CenterX+1] = 5
-                realTimeMap[CenterY][CenterX+2] = 4
-            elif movement == LEFT:
-                realTimeMap[CenterY-1][CenterX] = 4
-                realTimeMap[CenterY][CenterX+1] = 1
+            if step == RIGHT:
+                realTimeMap[cenY+1][cenX] = 4
+                realTimeMap[cenY][cenX+1] = 1
+            elif step == FORWARD:
+                realTimeMap[cenY][cenX] = 1
+                realTimeMap[cenY][cenX+1] = 5
+                realTimeMap[cenY][cenX+2] = 4
+            elif step == LEFT:
+                realTimeMap[cenY-1][cenX] = 4
+                realTimeMap[cenY][cenX+1] = 1
         return realTimeMap
 
 
-    def getRealTimeMap(self, sensors, explored_map):
-        global cnt
+    def getRealTimeMap(self, srs, explored_map):
+        global count
         global realTimeMap
-        global robotCurMovement
-        global robotBreak
-        global robotCenterX
-        global robotCenterY
-        #print(cnt + 1, "before: ",  robotCurMovement)
-        self.main(sensors, explored_map)
-        print("[Tornado | %s] exploration.py > %d - %s : (%d, %d)" %(time.ctime(time.time()), cnt + 1, robotCurMovement, robotCenterY, robotCenterX))
-        cnt += 1
-        return (robotCurMovement, robotBreak)
+        global curStep
+        global terminateRobot
+        global centerX
+        global centerY
+        self.main(srs, explored_map)
+        print("[Tornado | %s] explore.py > %d - %s : (%d, %d)" %(time.ctime(time.time()), count + 1, curStep, centerY, centerX))
+        count = count+1
+        return (curStep, terminateRobot)

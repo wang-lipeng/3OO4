@@ -60,8 +60,8 @@ class ShortestPath(object):
         # coord[0] is y
         # coord[1] is x
 
-    #is_okay: detect the cells that are okay to move
-    def is_okay(self, coord):
+    """is_okay: detect the cells that are okay to move"""
+    def is_safe(self, coord):
        
         # neither unexplored area or obstacle : explored cell
         directions = [[0, 0], [0, 1], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, 0], [1, 1], [1, -1]]
@@ -72,61 +72,70 @@ class ShortestPath(object):
                 self.map[coord[0] + direction[0]][coord[1] + direction[1]] == 2: # obstacle             
                 return False
         return True
-
+   
+    """expand: expand explored area"""
     def expand(self, head):
         directions = [[1, 0], [0, 1], [-1, 0], [0, -1]] #S,E,N,W
         ret = []
         for direction in directions:
-            if 0 <= direction[0] + head[0] < len(self.map) and 0 <= direction[1] + head[1] < len (self.map[0]) and  self.is_okay([direction[0] + head[0], direction[1] + head[1]]):
+            if 0 <= direction[0] + head[0] < len(self.map) and 0 <= direction[1] + head[1] < len (self.map[0]) and \
+              self.is_safe([direction[0] + head[0], direction[1] + head[1]]):
                 ret.append([direction[0] + head[0], direction[1] + head[1]])
         return ret
+    
+    """direction:decide direction"""
     def direction(self, _from, _to):
         if _to[0] - _from[0] > 0:
             return SOUTH
         elif _to[0] - _from[0] < 0:
             return NORTH
-        else:
+        else: #go EAST or WEST
             if _to[1] - _from[1] > 0:
                 return EAST
             else:
                 return WEST
+    
+    """action: decide the robot's actions based on the direction
+       LEFT, RIGHT, FORWARD, LEFT X 2 = BACKWARD"""
     def action(self, _from, _to, _current_direction):
         # actions are: L (left), R (right), F (forward)
         if _current_direction == SOUTH:
-            if _to[0] - _from[0] < 0:
+            if _to[0] - _from[0] < 0: # from SOUTH to NORTH
                 return [LEFT, LEFT, FORWARD]
-            elif _to[0] - _from[0] == 0:
-                if _to[1] - _from[1] > 0:
-                    return [LEFT, FORWARD]
-                else:
+            elif _to[0] - _from[0] == 0: # to EAST or WEST
+                if _to[1] - _from[1] > 0: # to EAST
+                    return [LEFT, FORWARD] 
+                else: # to WEST
                     return [RIGHT, FORWARD]
         elif _current_direction == EAST:
-            if _to[1] - _from[1] < 0:
+            if _to[1] - _from[1] < 0: # from EAST to WEST
                 return [LEFT, LEFT, FORWARD]
-            elif _to[1] - _from[1] == 0:
-                if _to[0] - _from[0] > 0:
+            elif _to[1] - _from[1] == 0: # go NORTH or SOUTH 
+                if _to[0] - _from[0] > 0: # go SOUTH
                     return [RIGHT, FORWARD]
-                else:
+                else: # go NORTH
                     return [LEFT, FORWARD]
         elif _current_direction == NORTH:
-            if _to[0] - _from[0] > 0:
+            if _to[0] - _from[0] > 0: # from NORTH to SOUTH
                 return [LEFT, LEFT, FORWARD]
-            elif _to[0] - _from[0] == 0:
-                if _to[1] - _from[1] > 0:
+            elif _to[0] - _from[0] == 0: # go EAST or WEST
+                if _to[1] - _from[1] > 0: # go EAST
                     return [RIGHT, FORWARD]
-                else:
+                else: # go WEST
                     return [LEFT, FORWARD]
         elif _current_direction == WEST:
-            if _to[1] - _from[1] > 0:
+            if _to[1] - _from[1] > 0: # from WEST to EAST
                 return [LEFT, LEFT, FORWARD]
-            elif _to[1] - _from[1] == 0:
-                if _to[0] - _from[0] > 0:
+            elif _to[1] - _from[1] == 0: # go NORTH or SOUTH
+                if _to[0] - _from[0] > 0: # go SOUTH
                     return [LEFT, FORWARD]
-                else:
+                else: # go NORTH
                     return [RIGHT, FORWARD]
         return [FORWARD]
-    def manhattan(self, _from, _to):
-        return abs(_from[0] - _to[0]) + abs(_from[1] - _to[1])
+    
+    """manhattanDistance: calculate the distance between two coordinates"""
+    def manhattanDistance(self, _start, _end):
+        return abs(_start[0] - _end[0]) + abs(_start[1] - _end[1])
 
     def cost(self, _from, _to, _current_direction):
         # can be the heuristic function
@@ -166,7 +175,7 @@ class ShortestPath(object):
         while not pq.empty():
             head = pq.get()
 
-            # if goal, break
+            # if reach goal zone, break
             if head["position"][0] == self.goal[0] and head["position"][1] == self.goal[1]:
                 break
 
@@ -176,8 +185,8 @@ class ShortestPath(object):
             # if not yet visited OR can be visited with lower cost, put in pq
             for neighbor in neighbors:
                 gn = self.cost(head["position"], neighbor, head["direction"])
-                hn = self.manhattan(neighbor, self.goal)
-                cost = gn# + hn
+                hn = self.manhattanDistance(neighbor, self.goal)
+                cost = gn # + hn
                 if dist[head["position"][0]][head["position"][1]] + cost < dist[neighbor[0]][neighbor[1]]:
 
                     dist[neighbor[0]][neighbor[1]] = dist[head["position"][0]][head["position"][1]] + gn
@@ -199,16 +208,14 @@ class ShortestPath(object):
             if cur[0] == -1 and cur[1] == -1:
                 break # no path possible
 
-        # consruct direction from start
+        # construct direction from start
         cur = self.start
         cur_dir = self.directon
         seq = []
         while cur[0] != self.goal[0] or cur[1] != self.goal[1]:
             next_coord = next_post[cur[0]][cur[1]]
-            # print(cur, next_coord, cur_dir)
             for x in self.action(cur, next_coord, cur_dir):
                 seq.append(x)
-                # print(x)
             cur_dir = self.direction(cur, next_coord)
             cur = next_coord
 
@@ -227,11 +234,11 @@ class ShortestPath(object):
                 trim_seq.append(ch)
         if (ch_cnt > 0):
             trim_seq.append(str(hex(ch_cnt))[2:])
-        #print(trim_seq)
+
 
         # return sequence of actions ### and the map
         return {
             "sequence": seq,
-            "trim_seq": trim_seq#,
-        #    "map": ret_map
+            "trim_seq": trim_seq,
+            "map": ret_map
         }

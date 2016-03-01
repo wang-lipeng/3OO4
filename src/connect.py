@@ -94,13 +94,13 @@ def execute_sPath():
     if not completeExplore:
         return False
     sPath = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    sPath_list = sPath.shortestPath()
+    sPath_list = sPath.shortest_path()
     sPath_sequence = sPath_list['trim_seq']
+    sPath_sequence_start_to_goal = sPath_sequence[:]
     sPath_sequence.reverse() 
-    inform(sPath_sequence)
     delay_call(sPath_to_goal, sPath_sequence)
-
     inform("Start shortest path...")
+    inform(sPath_sequence_start_to_goal)
 
 """handler for html file"""
 class IndexHandler(tornado.web.RequestHandler):
@@ -151,7 +151,7 @@ def tick(step):
         message = dict()
         message['type'] = 'map'
         message['step'] = step
-        message['time'] = str(datetime.datetime.utcnow())
+        message['time'] = str(datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3])+'Z'
         message['map'] = robot.explored_map
         clients[key]['object'].write_message(json.dumps(message))
 
@@ -160,7 +160,7 @@ def inform(string):
     for key in clients:
         message = dict()
         message['type'] = 'info'
-        message['time'] = str(datetime.datetime.utcnow())
+        message['time'] = str(datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3])+'Z'
         message['info'] = string
         clients[key]['object'].write_message(json.dumps(message))
 
@@ -174,9 +174,9 @@ def sPath_to_start(sequence):
         completeExplore = True
         inform("Return to start...")
         return False
-    choice = sequence.pop()
-    robot.step(choice, -1)
-    print(choice, ': ', robot.direction)
+    step = sequence.pop()
+    robot.step(step, -1)
+    #print step, '(', robot.direction,')'
     delay_call(sPath_to_start, sequence)
 
 """shortest path from start to goal"""
@@ -188,9 +188,9 @@ def sPath_to_goal(sequence):
         inform("Complete shortestPath...")
         started = False
         return False
-    choice = sequence.pop()
-    robot.step(choice, 9)
-    print(choice, ': ', robot.direction)
+    step = sequence.pop()
+    robot.step(step, 9)
+    print step, '( ',robot.direction,')'
     delay_call(sPath_to_goal, sequence)
     
 def exploration(explore):
@@ -202,7 +202,7 @@ def exploration(explore):
     cur = explore.getRealTimeMap(sensors, robot.explored_map)
     if not cur[1]:
         robot.step(cur[0])
-        print(robot.current)
+        #print(robot.current)
         sensors = robot.get_sensors()
         delay_call(exploration, explore)
     else:
@@ -213,10 +213,10 @@ def exploration(explore):
         inform(robot.descriptor_two())
 
         sPath = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.start)
-        sPath_list = sPath.shortestPath(-1)
+        sPath_list = sPath.shortest_path(-1)
         sPath_sequence = sPath_list['trim_seq']
         sPath_sequence.reverse() 
-        inform(sPath_sequence)
+        #inform(sPath_sequence)
 
         delay_call(sPath_to_start, sPath_sequence)
 

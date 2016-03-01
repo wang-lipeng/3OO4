@@ -60,6 +60,95 @@ class ShortestPath(object):
         # coord[0] is y
         # coord[1] is x
 
+    """Main function to calculate the shortest path"""
+    def shortestPath(self, mark_value = 9):
+        distance = [] # distance between current and start
+        prev = [] # previous cell
+        next_step = [] # next step in shortest path
+        for i in range(len(self.map)):
+            distance.append([])
+            prev.append([])
+            next_step.append([])
+            for j in range(len(self.map[i])):
+                distance[i].append(INF)
+                prev[i].append([-1, -1])
+                next_step[i].append([-1, -1])
+
+        # Dijkstra / A*
+        priorityqueue = PriorityQueue()
+        priorityqueue.put(PqNode({"position": self.start, "direction": self.direction, "weight": 0}))
+        distance[self.start[0]][self.start[1]] = 0
+
+        while not priorityqueue.empty():
+            head = priorityqueue.get()
+
+            # if reach goal zone, break
+            if head["position"][0] == self.goal[0] and head["position"][1] == self.goal[1]:
+                break
+
+            # expand head
+            neighbors =  self.expand(head["position"])
+
+            # if not yet visited OR can be visited with lower cost, put in priority queue
+            for neighbor in neighbors:
+                gn = self.cost(head["position"], neighbor, head["direction"])
+                cost = gn 
+                if distance[head["position"][0]][head["position"][1]] + cost < distance[neighbor[0]][neighbor[1]]:
+
+                    distance[neighbor[0]][neighbor[1]] = distance[head["position"][0]][head["position"][1]] + gn
+                    prev[neighbor[0]][neighbor[1]] = head["position"]
+                    priorityqueue.put(PqNode({"position": neighbor,
+                        "direction": self.direction(head["position"], neighbor),
+                        "weight": cost}))
+
+        # construct path from goal
+        cur = self.goal
+        ret_map = self.map
+        while cur[0] != self.start[0] or cur[1] != self.start[1]:
+            if mark_value >= 0:
+                ret_map[cur[0]][cur[1]] = mark_value
+            prev_step = prev[cur[0]][cur[1]]
+            next_step[prev_step[0]][prev_step[1]] = [cur[0], cur[1]]
+            cur = prev_step
+            if cur[0] == -1 and cur[1] == -1:
+                break # no path possible
+
+        # construct direction from start
+        cur = self.start
+        cur_dir = self.directon
+        seq = []
+        while cur[0] != self.goal[0] or cur[1] != self.goal[1]:
+            next_coord = next_step[cur[0]][cur[1]]
+            for x in self.action(cur, next_coord, cur_dir):
+                seq.append(x)
+            cur_dir = self.direction(cur, next_coord)
+            cur = next_coord
+
+        trim_seq = []
+        ch_cnt = 0
+        for ch in seq:
+            if ch == '1':
+                ch_cnt += 1
+                if ch_cnt == 15:
+                    trim_seq.append(str(hex(ch_cnt))[2:])
+                    ch_cnt = 0
+            else:
+                if 0 < ch_cnt:
+                    trim_seq.append(str(hex(ch_cnt))[2:])
+                    ch_cnt = 0
+                trim_seq.append(ch)
+        if (ch_cnt > 0):
+            trim_seq.append(str(hex(ch_cnt))[2:])
+
+
+        # return sequence of actions ### and the map
+        return {
+            "sequence": seq,
+            "trim_seq": trim_seq,
+            "map": ret_map
+        }
+
+
     """is_okay: detect the cells that are okay to move"""
     def is_safe(self, coord):
        
@@ -133,10 +222,7 @@ class ShortestPath(object):
                     return [RIGHT, FORWARD]
         return [FORWARD]
     
-    """manhattanDistance: calculate the distance between two coordinates"""
-    def manhattanDistance(self, _start, _end):
-        return abs(_start[0] - _end[0]) + abs(_start[1] - _end[1])
-
+    """cost: find cost of the optimized path"""
     def cost(self, _from, _to, _current_direction):
         # can be the heuristic function
         # if going backward of current direction, cost = 9
@@ -150,95 +236,7 @@ class ShortestPath(object):
             if self.map[_to[0] + direction[0]][_to[1] + direction[1]] == 0:
                 add_cost += 30
 
-        ret_cost = 1 + max(0, (len(action) - 1) * (len(action) - 1) * 10) + add_cost
-        return ret_cost
-
-    def shortestPath(self, mark_value = 9):
-        dist = [] # for each cell, how far is it from the start?
-        prev = [] # for each cell, what is its parent?
-        next_post = [] # for each cell in optimized path, what is the next position?
-        for i in range(len(self.map)):
-            dist.append([])
-            prev.append([])
-            next_post.append([])
-            for j in range(len(self.map[i])):
-                dist[i].append(INF)
-                prev[i].append([-1, -1])
-                next_post[i].append([-1, -1])
-        # note that it will be (y, x)
-
-        # do Dijkstra/UCS or A*
-        pq = PriorityQueue()
-        pq.put(PqNode({"position": self.start, "direction": self.direction, "weight": 0}))
-        dist[self.start[0]][self.start[1]] = 0
-
-        while not pq.empty():
-            head = pq.get()
-
-            # if reach goal zone, break
-            if head["position"][0] == self.goal[0] and head["position"][1] == self.goal[1]:
-                break
-
-            # expand head
-            neighbors =  self.expand(head["position"])
-
-            # if not yet visited OR can be visited with lower cost, put in pq
-            for neighbor in neighbors:
-                gn = self.cost(head["position"], neighbor, head["direction"])
-                hn = self.manhattanDistance(neighbor, self.goal)
-                cost = gn # + hn
-                if dist[head["position"][0]][head["position"][1]] + cost < dist[neighbor[0]][neighbor[1]]:
-
-                    dist[neighbor[0]][neighbor[1]] = dist[head["position"][0]][head["position"][1]] + gn
-                    prev[neighbor[0]][neighbor[1]] = head["position"]
-                    #print(neighbor, " from ", head["position"], " so far: ", dist[neighbor[0]][neighbor[1]])
-                    pq.put(PqNode({"position": neighbor,
-                        "direction": self.direction(head["position"], neighbor),
-                        "weight": cost}))
-
-        # construct path from goal
-        cur = self.goal
-        ret_map = self.map
-        while cur[0] != self.start[0] or cur[1] != self.start[1]:
-            if mark_value >= 0:
-                ret_map[cur[0]][cur[1]] = mark_value
-            prev_post = prev[cur[0]][cur[1]]
-            next_post[prev_post[0]][prev_post[1]] = [cur[0], cur[1]]
-            cur = prev_post
-            if cur[0] == -1 and cur[1] == -1:
-                break # no path possible
-
-        # construct direction from start
-        cur = self.start
-        cur_dir = self.directon
-        seq = []
-        while cur[0] != self.goal[0] or cur[1] != self.goal[1]:
-            next_coord = next_post[cur[0]][cur[1]]
-            for x in self.action(cur, next_coord, cur_dir):
-                seq.append(x)
-            cur_dir = self.direction(cur, next_coord)
-            cur = next_coord
-
-        trim_seq = []
-        ch_cnt = 0
-        for ch in seq:
-            if ch == '1':
-                ch_cnt += 1
-                if ch_cnt == 15:
-                    trim_seq.append(str(hex(ch_cnt))[2:])
-                    ch_cnt = 0
-            else:
-                if 0 < ch_cnt:
-                    trim_seq.append(str(hex(ch_cnt))[2:])
-                    ch_cnt = 0
-                trim_seq.append(ch)
-        if (ch_cnt > 0):
-            trim_seq.append(str(hex(ch_cnt))[2:])
+        cost = 1 + max(0, (len(action) - 1) * (len(action) - 1) * 10) + add_cost
+        return cost
 
 
-        # return sequence of actions ### and the map
-        return {
-            "sequence": seq,
-            "trim_seq": trim_seq,
-            "map": ret_map
-        }

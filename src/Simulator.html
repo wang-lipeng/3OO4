@@ -107,6 +107,7 @@ body {
 }
 .info {
     display: block;
+    padding-left:20px;
 /*     border-bottom: 1px solid #ccc; */
     position: relative;
     width: inherit;
@@ -116,7 +117,7 @@ body {
 .info-time {
     position: absolute;
     top: 0;
-    left: 0;
+    /* left: 0; */
     font-size: 9px;
     color: #214fc6;
 }
@@ -125,7 +126,7 @@ body {
     color: #111;
     width: inherit;
     font-weight:bold;
-    /* word-break: break-all; */
+   
 }
 #messages {
     height: 520px;
@@ -391,7 +392,8 @@ body {
                     ws.send("Initializing connection");
                     //messageContainer.innerHTML += "<br>Connection is opened...";
                     logInfo({
-                        time: (new Date()).toISOString(),
+                        time: (new Date()).toISOString().toString("'yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                        //return dateStr;
                         body: "Connection opened."
                     });
                     wsOk = true;

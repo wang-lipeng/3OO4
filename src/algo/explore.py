@@ -202,7 +202,6 @@ class Exploration(object):
                     if realTimeMap[i][j] != 0:
                         exploredCell = exploredCell + 1
         
-        ##########################
         if exploredCell >= coverageFigure * 3:
                 """end exploration with satisfied percentage"""
                 terminateRobot = True
@@ -467,8 +466,9 @@ class Exploration(object):
         global centerY
         global coverageFigure
         self.main(srs, explored_map)
-        print("[Tornado | %s] explore.py > %d - %s : (%d, %d)" %(time.ctime(time.time()), count + 1, curStep, centerY, centerX))
-        print("Defined percentage: ",coverageFigure)
-        print("Number of explored cells:", exploredCell)
+        print count + 1, ":" , "current step: ",curStep, "center: ", "(",centerY, ",", centerX,")"
+        print'Defined percentage: ' ,coverageFigure, "%"
+        print 'Number of explored cells: ', exploredCell
+        print ""
         count = count+1
         return (curStep, terminateRobot)

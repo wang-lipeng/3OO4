@@ -83,7 +83,7 @@ class Robot(object):
         start = []
         goal = []
         """read map from txt file"""
-        with open("maps/map1.txt") as f:
+        with open("maps/map6.txt") as f:
             content = f.readlines()
             for line in content:
                 map = []
@@ -99,7 +99,6 @@ class Robot(object):
         if step:
             if step == FORWARD or step.isdigit() or step.islower():
                 times = int(step, 16)
-                print("[Tornado] simulate.py > step > %d " % (times))
                 for i in range(times):
                     self.forward(val)
             elif step == LEFT or step == RIGHT:
@@ -168,7 +167,8 @@ class Robot(object):
 
     def get_sensors(self):
         sensors = []
-        for i in range(6):
+        """6 sensors version""" 
+        for i in range(5):
             sensors.append([])
             for j in range(4):
                 sensors[i].append(None)
@@ -212,7 +212,7 @@ class Robot(object):
             if sensors[2][i] == 2: #encounter obstacle
                 break
         
-        """left""" 
+        """left (front)""" 
         for i in range(4):
             if self.direction == NORTH:
                 sensors[3][i] = self.get_value(self.current[0] - 1, self.current[1] - i - 2)
@@ -225,7 +225,7 @@ class Robot(object):
             if sensors[3][i] == 2: #encounter obstacle
                 break
 
-        """right""" 
+        """right (front)""" 
         for i in range(4):
             if self.direction == NORTH:
                 sensors[4][i] = self.get_value(self.current[0] - 1, self.current[1] + i + 2)
@@ -239,17 +239,17 @@ class Robot(object):
                 break
           
         """left bottom""" 
-        for i in range(4):
-            if self.direction == NORTH:
-                sensors[5][i] = self.get_value(self.current[0] + 1, self.current[1] - i - 2)
-            elif self.direction == EAST:
-                sensors[5][i] = self.get_value(self.current[0] - i - 2, self.current[1] - 1)
-            elif self.direction == WEST:
-                sensors[5][i] = self.get_value(self.current[0] + i + 2, self.current[1] + 1)
-            else: # self.direction == SOUTH:
-                sensors[5][i] = self.get_value(self.current[0] - 1, self.current[1] + i + 2)
-            if sensors[5][i] == 2: #encounter obstacle
-                break     
+#         for i in range(4):
+#             if self.direction == NORTH:
+#                 sensors[5][i] = self.get_value(self.current[0] + 1, self.current[1] - i - 2)
+#             elif self.direction == EAST:
+#                 sensors[5][i] = self.get_value(self.current[0] - i - 2, self.current[1] - 1)
+#             elif self.direction == WEST:
+#                 sensors[5][i] = self.get_value(self.current[0] + i + 2, self.current[1] + 1)
+#             else: # self.direction == SOUTH:
+#                 sensors[5][i] = self.get_value(self.current[0] - 1, self.current[1] + i + 2)
+#             if sensors[5][i] == 2: #encounter obstacle
+#                 break     
         
         zope.event.notify("SENSOR")
         return sensors

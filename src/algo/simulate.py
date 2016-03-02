@@ -83,7 +83,7 @@ class Robot(object):
         start = []
         goal = []
         """read map from txt file"""
-        with open("maps/map6.txt") as f:
+        with open("maps/map5.txt") as f:
             content = f.readlines()
             for line in content:
                 map = []

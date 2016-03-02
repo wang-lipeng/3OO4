@@ -361,7 +361,7 @@ def patch_socket(dns=True, aggressive=True):
     # Note: although it seems like it's not strictly necessary to monkey patch 'create_connection',
     # it's better to do it. If 'create_connection' was not monkey patched, but the rest of socket module
     # was, create_connection would still use "green" getaddrinfo and "green" socket.
-    # However, because gevent.socket.socket.connect is a Python function, the exception raised by it causes
+    # However, because gevent.socket.socket.connect_simulate is a Python function, the exception raised by it causes
     # _socket object to be referenced by the frame, thus causing the next invocation of bind(source_address) to fail.
     if dns:
         items = socket.__implements__

@@ -94,7 +94,7 @@ def execute_sPath():
     if not completeExplore:
         return False
     sPath = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    sPath_list = sPath.shortest_path()
+    sPath_list = sPath.shortestPath()
     sPath_sequence = sPath_list['trim_seq']
     sPath_sequence_start_to_goal = sPath_sequence[:]
     sPath_sequence.reverse() 
@@ -213,7 +213,7 @@ def exploration(explore):
         inform(robot.descriptor_two())
 
         sPath = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.start)
-        sPath_list = sPath.shortest_path(-1)
+        sPath_list = sPath.shortestPath(-1)
         sPath_sequence = sPath_list['trim_seq']
         sPath_sequence.reverse() 
         #inform(sPath_sequence)

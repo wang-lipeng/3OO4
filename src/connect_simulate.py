@@ -26,7 +26,7 @@ delay_time = 0.1
 started = False
 completeExplore = False
 
-define("port", default=8888, help="run on the defined port", type=int)
+define("port", default=8002, help="run on the defined port", type=int)
 
 class FuncThread(threading.Thread):
     def __init__(self, target, *args):

@@ -1,0 +1,120 @@
+1 : current step:  1 center:  ( 17 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  41
+
+Start to explore...
+2 : current step:  1 center:  ( 16 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  47
+
+3 : current step:  D center:  ( 16 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  53
+
+4 : current step:  1 center:  ( 16 , 2 )
+Defined percentage:  50 %
+Number of explored cells:  53
+
+5 : current step:  1 center:  ( 16 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  60
+
+6 : current step:  A center:  ( 16 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  66
+
+7 : current step:  1 center:  ( 15 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  66
+
+8 : current step:  1 center:  ( 14 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  73
+
+9 : current step:  1 center:  ( 13 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  81
+
+10 : current step:  1 center:  ( 12 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  89
+
+11 : current step:  A center:  ( 12 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  94
+
+12 : current step:  1 center:  ( 12 , 2 )
+Defined percentage:  50 %
+Number of explored cells:  94
+
+13 : current step:  1 center:  ( 12 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  98
+
+14 : current step:  D center:  ( 12 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  102
+
+15 : current step:  1 center:  ( 11 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  102
+
+16 : current step:  1 center:  ( 10 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  107
+
+17 : current step:  1 center:  ( 9 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  109
+
+18 : current step:  1 center:  ( 8 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  111
+
+19 : current step:  D center:  ( 8 , 1 )
+Defined percentage:  50 %
+Number of explored cells:  113
+
+20 : current step:  1 center:  ( 8 , 2 )
+Defined percentage:  50 %
+Number of explored cells:  113
+
+21 : current step:  1 center:  ( 8 , 3 )
+Defined percentage:  50 %
+Number of explored cells:  117
+
+22 : current step:  1 center:  ( 8 , 4 )
+Defined percentage:  50 %
+Number of explored cells:  121
+
+23 : current step:  1 center:  ( 8 , 5 )
+Defined percentage:  50 %
+Number of explored cells:  125
+
+24 : current step:  1 center:  ( 8 , 6 )
+Defined percentage:  50 %
+Number of explored cells:  133
+
+25 : current step:  1 center:  ( 8 , 7 )
+Defined percentage:  50 %
+Number of explored cells:  141
+
+26 : current step:  A center:  ( 8 , 7 )
+Defined percentage:  50 %
+Number of explored cells:  149
+
+27 : current step:  1 center:  ( 7 , 7 )
+Defined percentage:  50 %
+Number of explored cells:  149
+
+28 : current step:  objc.NULL center:  ( 6 , 7 )
+Defined percentage:  50 %
+Number of explored cells:  156
+
+Complete exploration...
+Descriptor1:
+ff807f00ff01ff03fe07fc0ff81ff03fe07fc0ffe1fff3ffe7ffc038007000e001c7000e001f
+Descriptor2:
+000004000040000000e000010000003f00004000
+Return to start...
+Stop exploration...

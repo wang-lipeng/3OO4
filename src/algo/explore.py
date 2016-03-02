@@ -17,6 +17,8 @@ import random
 import time
 from algo.shortestPath import ShortestPath
 from algo.constants import *
+from matplotlib.cbook import Null
+from objc._objc import NULL
 
 class Exploration(object):
 
@@ -201,8 +203,13 @@ class Exploration(object):
                 for j in range(0,15):
                     if realTimeMap[i][j] != 0:
                         exploredCell = exploredCell + 1
-        
-        if exploredCell >= coverageFigure * 3:
+    
+        if coverageFigure == 100:
+            if exploredCell >= coverageFigure * 3 and atStart:
+                """end exploration with fully explored map"""
+                terminateRobot = True
+        else:
+            if exploredCell >= coverageFigure * 3:
                 """end exploration with satisfied percentage"""
                 terminateRobot = True
         

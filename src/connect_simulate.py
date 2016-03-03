@@ -7,7 +7,7 @@ from tornado.options import define, options, parse_command_line
 
 import datetime
 import json
-import zope.event
+
 import random
 import sys
 
@@ -224,9 +224,9 @@ if __name__ == '__main__':
     parse_command_line()
     app.listen(options.port)
     robot = algo.simulate.Robot()
-    old_subscribers = zope.event.subscribers[:]
-    del zope.event.subscribers[:]
-    zope.event.subscribers.append(tick)
+    #old_subscribers = zope.event.subscribers[:]
+    #del zope.event.subscribers[:]
+   # zope.event.subscribers.append(tick)
     print("Listening to http://localhost:" + str(options.port) + "...")
     t = FuncThread(tornado.ioloop.IOLoop.instance().start)
     t.start()

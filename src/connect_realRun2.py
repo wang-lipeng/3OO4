@@ -26,15 +26,13 @@ delay_time = 0.1
 started = False
 completeExplore = False
 
-define("port", default=8000, help="run on the defined port", type=int)
+define("port", default=8003, help="run on the defined port", type=int)
 
 class FuncThread(threading.Thread):
     def __init__(self, target, *args):
         self._target = target
         self._args = args
-        #self._kwargs = kwargs
         threading.Thread.__init__(self)
-        print (self._target)
 
     def run(self):
         self._target(*self._args)
@@ -59,13 +57,12 @@ def delay_call(log, *args, **kwargs):
     t.start()
 
 """execute exploration function"""
-def execute_exploration(percentage, delay, sensorValStr):
+def execute_exploration(percentage, delay):
     global robot
     global started
     global delay_time
     global log
     global sensors
-   #global sensorValStr
     
     robot = algo.realRun.Robot()
     if started:
@@ -75,6 +72,8 @@ def execute_exploration(percentage, delay, sensorValStr):
     if log.closed:
         log = open('log.txt', 'w')
     sys.stdout = log
+    
+    sensorValStr = "40,40,40,40,40,40"
     sensors = robot.receive_sensors(sensorValStr)
 
     robot.receive_sensors(sensorValStr)
@@ -114,11 +113,9 @@ class IndexHandler(tornado.web.RequestHandler):
 """start handler for exploration"""
 class StartHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
-    #global sensorValStr = 1112
-    def get(self, percentage, delay, sensorValStr):
-       
+    def get(self, percentage, delay):
         self.write("Starting...")
-        execute_exploration(percentage, delay, sensorValStr)
+        execute_exploration(percentage, delay)
         self.flush()
 
 """start handler for shortest path"""
@@ -141,21 +138,14 @@ class StopHandler(tornado.web.RequestHandler):
         global log
         sys.stdout = orig_stdout
         log.close()
-        
-
-
-
-
 
 """the web application UI"""
 app = tornado.web.Application([
     (r'/', IndexHandler),
     (r'/ws', WebSocketHandler),
-    (r'/start/(.*)/(.*)/(.*)', StartHandler),
+    (r'/start/(.*)/(.*)', StartHandler),
     (r'/start_sp/', StartSPathHandler),
-    
     (r'/stop/', StopHandler)
-
 ])
 
 def tick(step):
@@ -215,7 +205,9 @@ def exploration(explore):
     if not cur[1]:
         robot.step(cur[0])
         #print(robot.current)
-        sensors = robot.receive_sensors("100,10,10,10,10,10")
+        sensorValStr = "40,40,40,40,40,40"
+        sensors = robot.receive_sensors(sensorValStr)
+        
         delay_call(exploration, explore)
     else:
         inform("Complete exploration...")

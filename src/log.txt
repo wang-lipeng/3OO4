@@ -1,120 +1,528 @@
 1 : current step:  1 center:  ( 17 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  41
 
 Start to explore...
 2 : current step:  1 center:  ( 16 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  47
 
 3 : current step:  D center:  ( 16 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  53
 
 4 : current step:  1 center:  ( 16 , 2 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  53
 
 5 : current step:  1 center:  ( 16 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  60
 
 6 : current step:  A center:  ( 16 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  66
 
 7 : current step:  1 center:  ( 15 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  66
 
 8 : current step:  1 center:  ( 14 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  73
 
 9 : current step:  1 center:  ( 13 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  81
 
 10 : current step:  1 center:  ( 12 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  89
 
 11 : current step:  A center:  ( 12 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  94
 
 12 : current step:  1 center:  ( 12 , 2 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  94
 
 13 : current step:  1 center:  ( 12 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  98
 
 14 : current step:  D center:  ( 12 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  102
 
 15 : current step:  1 center:  ( 11 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  102
 
 16 : current step:  1 center:  ( 10 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  107
 
 17 : current step:  1 center:  ( 9 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  109
 
 18 : current step:  1 center:  ( 8 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  111
 
 19 : current step:  D center:  ( 8 , 1 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  113
 
 20 : current step:  1 center:  ( 8 , 2 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  113
 
 21 : current step:  1 center:  ( 8 , 3 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  117
 
 22 : current step:  1 center:  ( 8 , 4 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  121
 
 23 : current step:  1 center:  ( 8 , 5 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  125
 
 24 : current step:  1 center:  ( 8 , 6 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  133
 
 25 : current step:  1 center:  ( 8 , 7 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  141
 
 26 : current step:  A center:  ( 8 , 7 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  149
 
 27 : current step:  1 center:  ( 7 , 7 )
-Defined percentage:  50 %
+Defined percentage:  100 %
 Number of explored cells:  149
 
-28 : current step:  objc.NULL center:  ( 6 , 7 )
-Defined percentage:  50 %
+28 : current step:  1 center:  ( 6 , 7 )
+Defined percentage:  100 %
 Number of explored cells:  156
+
+29 : current step:  1 center:  ( 5 , 7 )
+Defined percentage:  100 %
+Number of explored cells:  165
+
+30 : current step:  1 center:  ( 4 , 7 )
+Defined percentage:  100 %
+Number of explored cells:  175
+
+31 : current step:  A center:  ( 4 , 7 )
+Defined percentage:  100 %
+Number of explored cells:  183
+
+32 : current step:  1 center:  ( 4 , 6 )
+Defined percentage:  100 %
+Number of explored cells:  183
+
+33 : current step:  1 center:  ( 4 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  189
+
+34 : current step:  1 center:  ( 4 , 4 )
+Defined percentage:  100 %
+Number of explored cells:  195
+
+35 : current step:  1 center:  ( 4 , 3 )
+Defined percentage:  100 %
+Number of explored cells:  198
+
+36 : current step:  1 center:  ( 4 , 2 )
+Defined percentage:  100 %
+Number of explored cells:  201
+
+37 : current step:  1 center:  ( 4 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  204
+
+38 : current step:  D center:  ( 4 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  207
+
+39 : current step:  1 center:  ( 3 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  207
+
+40 : current step:  1 center:  ( 2 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  207
+
+41 : current step:  1 center:  ( 1 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  207
+
+42 : current step:  D center:  ( 1 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  207
+
+43 : current step:  1 center:  ( 1 , 2 )
+Defined percentage:  100 %
+Number of explored cells:  207
+
+44 : current step:  1 center:  ( 1 , 3 )
+Defined percentage:  100 %
+Number of explored cells:  209
+
+45 : current step:  1 center:  ( 1 , 4 )
+Defined percentage:  100 %
+Number of explored cells:  209
+
+46 : current step:  1 center:  ( 1 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  211
+
+47 : current step:  D center:  ( 1 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+48 : current step:  1 center:  ( 2 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+49 : current step:  1 center:  ( 3 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+50 : current step:  1 center:  ( 4 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+51 : current step:  A center:  ( 4 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+52 : current step:  1 center:  ( 4 , 6 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+53 : current step:  1 center:  ( 4 , 7 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+54 : current step:  1 center:  ( 4 , 8 )
+Defined percentage:  100 %
+Number of explored cells:  213
+
+55 : current step:  1 center:  ( 4 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  216
+
+56 : current step:  A center:  ( 4 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  219
+
+57 : current step:  1 center:  ( 3 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  219
+
+58 : current step:  1 center:  ( 2 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  220
+
+59 : current step:  1 center:  ( 1 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  221
+
+60 : current step:  D center:  ( 1 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  222
+
+61 : current step:  1 center:  ( 1 , 10 )
+Defined percentage:  100 %
+Number of explored cells:  222
+
+62 : current step:  1 center:  ( 1 , 11 )
+Defined percentage:  100 %
+Number of explored cells:  222
+
+63 : current step:  1 center:  ( 1 , 12 )
+Defined percentage:  100 %
+Number of explored cells:  223
+
+64 : current step:  1 center:  ( 1 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  224
+
+65 : current step:  D center:  ( 1 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  226
+
+66 : current step:  1 center:  ( 2 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  226
+
+67 : current step:  1 center:  ( 3 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  227
+
+68 : current step:  D center:  ( 3 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+69 : current step:  1 center:  ( 3 , 12 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+70 : current step:  1 center:  ( 3 , 11 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+71 : current step:  1 center:  ( 3 , 10 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+72 : current step:  1 center:  ( 3 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+73 : current step:  A center:  ( 3 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+74 : current step:  1 center:  ( 4 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+75 : current step:  1 center:  ( 5 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  228
+
+76 : current step:  1 center:  ( 6 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  230
+
+77 : current step:  1 center:  ( 7 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  232
+
+78 : current step:  A center:  ( 7 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  234
+
+79 : current step:  1 center:  ( 7 , 10 )
+Defined percentage:  100 %
+Number of explored cells:  234
+
+80 : current step:  1 center:  ( 7 , 11 )
+Defined percentage:  100 %
+Number of explored cells:  238
+
+81 : current step:  1 center:  ( 7 , 12 )
+Defined percentage:  100 %
+Number of explored cells:  242
+
+82 : current step:  1 center:  ( 7 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  246
+
+83 : current step:  D center:  ( 7 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  250
+
+84 : current step:  1 center:  ( 8 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  250
+
+85 : current step:  1 center:  ( 9 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  253
+
+86 : current step:  1 center:  ( 10 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  257
+
+87 : current step:  1 center:  ( 11 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  261
+
+88 : current step:  1 center:  ( 12 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  263
+
+89 : current step:  1 center:  ( 13 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  267
+
+90 : current step:  D center:  ( 13 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  271
+
+91 : current step:  1 center:  ( 13 , 12 )
+Defined percentage:  100 %
+Number of explored cells:  271
+
+92 : current step:  1 center:  ( 13 , 11 )
+Defined percentage:  100 %
+Number of explored cells:  272
+
+93 : current step:  1 center:  ( 13 , 10 )
+Defined percentage:  100 %
+Number of explored cells:  276
+
+94 : current step:  1 center:  ( 13 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  280
+
+95 : current step:  A center:  ( 13 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  282
+
+96 : current step:  1 center:  ( 14 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  282
+
+97 : current step:  1 center:  ( 15 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  285
+
+98 : current step:  1 center:  ( 16 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  288
+
+99 : current step:  1 center:  ( 17 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  291
+
+100 : current step:  A center:  ( 17 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  295
+
+101 : current step:  1 center:  ( 17 , 10 )
+Defined percentage:  100 %
+Number of explored cells:  295
+
+102 : current step:  1 center:  ( 17 , 11 )
+Defined percentage:  100 %
+Number of explored cells:  296
+
+103 : current step:  1 center:  ( 17 , 12 )
+Defined percentage:  100 %
+Number of explored cells:  297
+
+104 : current step:  1 center:  ( 17 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  298
+
+105 : current step:  D center:  ( 17 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  299
+
+106 : current step:  1 center:  ( 18 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  299
+
+107 : current step:  D center:  ( 18 , 13 )
+Defined percentage:  100 %
+Number of explored cells:  299
+
+108 : current step:  1 center:  ( 18 , 12 )
+Defined percentage:  100 %
+Number of explored cells:  299
+
+109 : current step:  1 center:  ( 18 , 11 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+110 : current step:  1 center:  ( 18 , 10 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+111 : current step:  1 center:  ( 18 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+112 : current step:  D center:  ( 18 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+113 : current step:  1 center:  ( 17 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+114 : current step:  1 center:  ( 16 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+115 : current step:  1 center:  ( 15 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+116 : current step:  A center:  ( 15 , 9 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+117 : current step:  1 center:  ( 15 , 8 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+118 : current step:  1 center:  ( 15 , 7 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+119 : current step:  1 center:  ( 15 , 6 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+120 : current step:  1 center:  ( 15 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+121 : current step:  A center:  ( 15 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+122 : current step:  1 center:  ( 16 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+123 : current step:  1 center:  ( 17 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+124 : current step:  1 center:  ( 18 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+125 : current step:  D center:  ( 18 , 5 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+126 : current step:  1 center:  ( 18 , 4 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+127 : current step:  1 center:  ( 18 , 3 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+128 : current step:  1 center:  ( 18 , 2 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+129 : current step:  1 center:  ( 18 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  300
+
+130 : current step:  None center:  ( 18 , 1 )
+Defined percentage:  100 %
+Number of explored cells:  300
 
 Complete exploration...
 Descriptor1:
-ff807f00ff01ff03fe07fc0ff81ff03fe07fc0ffe1fff3ffe7ffc038007000e001c7000e001f
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 Descriptor2:
-000004000040000000e000010000003f00004000
+000000000400000001c800000000000700000000800000001f80000700000000020000000000
 Return to start...
 Stop exploration...

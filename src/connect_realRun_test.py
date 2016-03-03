@@ -176,10 +176,10 @@ def do_alignment(steps):
     if not started or len(steps) <= 0:
         return False
     choice = steps[0]
+    inform(choice)
     steps = steps[1:]
     if choice == RIGHT or choice == LEFT:
         robot.step(choice)
-
 
     delay_call(do_alignment, steps)
 

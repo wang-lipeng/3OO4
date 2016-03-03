@@ -218,7 +218,6 @@ def exploration(explore):
         #print(robot.current)
         sensors = robot.get_sensors()
         inform("sensors = robot.get_sensors()")
-        inform(robot.get_sensors())
         delay_call(exploration, explore)
     else:
         inform("Complete exploration...")

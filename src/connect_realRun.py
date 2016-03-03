@@ -244,29 +244,6 @@ def start_exploration(percentage, delay):
     started = True
 
 
-    ### TESTING
-    # for i in range(robot.MAX_ROW):
-    #     for j in range(robot.MAX_COL):
-    #         robot.explored_map[i][j] = 1
-    # for i in range(7):
-    #     robot.explored_map[4][i] = 2
-    # for i in range(5):
-    #     robot.explored_map[i][6] = 2
-
-
-    # # doing_sp = True
-    # sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    # sp_list = sp.shortest_path(-1)
-    # sp_sequence = sp_list['trim_seq']
-    # sp_sequence.reverse()
-    # inform(sp_sequence)
-
-    # gevent.joinall([
-    #     gevent.spawn(sp_to_goal, sp_sequence)
-    # ])
-    ### END TESTING
-
-
     exp = Exploration(int(percentage))
 
     inform("Exploration started, for real!")
@@ -408,18 +385,6 @@ def start_sp_to_goal():
         return
     sp_to_goal_started = True
 
-    # # TESTING
-    # exp_done = True
-    # started = True
-    # for i in range(robot.MAX_ROW):
-    #     for j in range(robot.MAX_COL):
-    #         robot.explored_map[i][j] = 1
-    # for i in range(6):
-    #     robot.explored_map[13][i] = 2
-    # robot.explored_map[0][8] = 2
-    # robot.direction = NORTH
-    # send_cmd(REQ_SENSOR)
-    # # END TESTING
 
     if not exp_done:
         return False

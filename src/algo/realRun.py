@@ -138,7 +138,7 @@ class Robot(object):
         else: # self.direction == SOUTH
             next_step[0] += 1
         """check next step is within the map and okay"""
-        if 0 <= next_step[0] < self.MAX_ROW and 0 <= next_step[1] < self.MAX_COL and self.isOKay(next_step):
+        if 0 <= next_step[0] < self.MAX_ROW and 0 <= next_step[1] < self.MAX_COL and self.isOkay(next_step):
             self.current[0] = next_step[0]
             self.current[1] = next_step[1]
         self.mark_robot()
@@ -165,7 +165,7 @@ class Robot(object):
             elif self.direction == WEST:
                 self.direction = SOUTH
         self.mark_robot()
-
+#
     def alignment(self):
         def is_danger(y, x):
             """within map range""" 
@@ -409,7 +409,7 @@ class Robot(object):
         self.mark_body(self.goal, 7)
         self.mark_robot()
 
-        if self.action_taken[-4:] == [LEFT, RIGHT, LEFT, RIGHT]:
+        if self.steps[-4:] == [LEFT, RIGHT, LEFT, RIGHT]:
             if self.direction == NORTH:
                 self.explored_map[self.current[0] - 1][self.current[1] - 2] = 2
                 self.map_state[self.current[0] - 1][self.current[1] - 2] = 4

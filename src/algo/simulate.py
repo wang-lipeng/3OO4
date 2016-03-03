@@ -78,7 +78,7 @@ class Robot(object):
                 self.map[center[0] + pos[0]][center[1] + pos[1]] == 2:               
                 return False
         return True
-
+#
     def get_map(self):
         start = []
         goal = []
@@ -151,7 +151,7 @@ class Robot(object):
             elif self.direction == WEST:
                 self.direction = SOUTH
         self.mark_robot()
-
+#
     def get_value(self, y, x):
         if 0 <= y < self.MAX_ROW and 0 <= x < self.MAX_COL:
             """update explored map""" 

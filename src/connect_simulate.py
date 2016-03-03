@@ -7,7 +7,7 @@ from tornado.options import define, options, parse_command_line
 
 import datetime
 import json
-
+import zope.event
 import random
 import sys
 
@@ -73,13 +73,26 @@ def execute_exploration(percentage, delay):
         log = open('log.txt', 'w')
     sys.stdout = log
     sensors = robot.get_sensors()
-
+    inform("sensors = robot.get_sensors()")
+    inform(robot.get_sensors())
+    
     robot.get_sensors()
+    inform("robot.get_sensors()")
+    inform(robot.get_sensors())
+    
     robot.step(RIGHT)
+    inform("robot.step(RIGHT)")
+    
     robot.get_sensors()
+    inform("robot.get_sensors()")
+    inform(robot.get_sensors())
+    
     robot.step(LEFT)
-    robot.get_sensors()
+    inform("robot.step(LEFT)")
 
+    robot.get_sensors()
+    inform("robot.get_sensors()")
+    inform(robot.get_sensors())
     explore = Exploration(int(percentage))
 
     t = FuncThread(exploration, explore)
@@ -204,6 +217,8 @@ def exploration(explore):
         robot.step(cur[0])
         #print(robot.current)
         sensors = robot.get_sensors()
+        inform("sensors = robot.get_sensors()")
+        inform(robot.get_sensors())
         delay_call(exploration, explore)
     else:
         inform("Complete exploration...")
@@ -224,9 +239,9 @@ if __name__ == '__main__':
     parse_command_line()
     app.listen(options.port)
     robot = algo.simulate.Robot()
-    #old_subscribers = zope.event.subscribers[:]
-    #del zope.event.subscribers[:]
-   # zope.event.subscribers.append(tick)
+    old_subscribers = zope.event.subscribers[:]
+    del zope.event.subscribers[:]
+    zope.event.subscribers.append(tick)
     print("Listening to http://localhost:" + str(options.port) + "...")
     t = FuncThread(tornado.ioloop.IOLoop.instance().start)
     t.start()

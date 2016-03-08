@@ -477,5 +477,6 @@ class Exploration(object):
         print'Defined percentage: ' ,coverageFigure, "%"
         print 'Number of explored cells: ', exploredCell
         print ""
+       
         count = count+1
         return (curStep, terminateRobot)

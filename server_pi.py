@@ -26,7 +26,7 @@ from collections import deque
 
 
 from algo.constants import *
-import algo.real
+import algo.realRun
 from algo.exploration import Exploration
 from algo.shortest_path import ShortestPath
 

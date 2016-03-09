@@ -295,7 +295,7 @@ class Robot(object):
         sensors.append(convert_front_sensor(sensorList[2]))  # FR: max 25
         sensors.append(convert_left_sensor( sensorList[3]))  # LT: max 35
         sensors.append(convert_right_sensor(sensorList[4]))  # RT: max 30
-        sensors.append(convert_left_sensor( sensorList[5]))  # LB: max 35
+#         sensors.append(convert_left_sensor( sensorList[5]))  # LB: max 35
 
         if abs((float(sensorList[3]) + float(sensorList[5])) / 2.0 - 5.3) >= 0.5:
             self.try_left = True
@@ -377,17 +377,17 @@ class Robot(object):
                 upd(self.current[0] - i - 2, self.current[1] - 1, self.sensors[4][i])
             else: # self.direction == SOUTH:
                 upd(self.current[0] + 1, self.current[1] - i - 2, self.sensors[4][i])
-
-        """" left bottom"""
-        for i in range(4):
-            if self.direction == NORTH:
-                upd(self.current[0] + 1, self.current[1] - i - 2, self.sensors[5][i])
-            elif self.direction == EAST:
-                upd(self.current[0] - i - 2, self.current[1] - 1, self.sensors[5][i])
-            elif self.direction == WEST:
-                upd(self.current[0] + i + 2, self.current[1] + 1, self.sensors[5][i])
-            else: # self.direction == SOUTH:
-                upd(self.current[0] - 1, self.current[1] + i + 2, self.sensors[5][i])
+# 
+#         """" left bottom"""
+#         for i in range(4):
+#             if self.direction == NORTH:
+#                 upd(self.current[0] + 1, self.current[1] - i - 2, self.sensors[5][i])
+#             elif self.direction == EAST:
+#                 upd(self.current[0] - i - 2, self.current[1] - 1, self.sensors[5][i])
+#             elif self.direction == WEST:
+#                 upd(self.current[0] + i + 2, self.current[1] + 1, self.sensors[5][i])
+#             else: # self.direction == SOUTH:
+#                 upd(self.current[0] - 1, self.current[1] + i + 2, self.sensors[5][i])
 
         for i in range(self.MAX_ROW):
             for j in range(self.MAX_COL):

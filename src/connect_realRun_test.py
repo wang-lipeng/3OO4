@@ -97,7 +97,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(self):
-        self.render("display.html")
+        self.render("Simulator.html")
 
 class StartHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -143,13 +143,13 @@ app = tornado.web.Application([
 ])
 
 
-def tick(action):
+def tick(step):
     #if android_ok:
     #    btWrite(robot.msg_for_android())
     for key in clients:
         message = dict()
         message['type'] = 'map'
-        message['action'] = action
+        message['step'] = step
         message['time'] = str(datetime.datetime.utcnow())
         message['map'] = robot.explored_map
         clients[key]['object'].write_message(json.dumps(message))
@@ -164,23 +164,24 @@ def inform(string):
         message['info'] = string
         clients[key]['object'].write_message(json.dumps(message))
 
-def do_alignment(actions):
+def do_alignment(steps):
     global started
     #global doing_sp
-    if not started or len(actions) <= 0:
+    if not started or len(steps) <= 0:
         return False
-    choice = actions[0]
-    actions = actions[1:]
+    choice = steps[0]
+    steps = steps[1:]
     send_cmd(choice)
     if choice == RIGHT or choice == LEFT:
         #if doing_sp:
-        #    actions.push(LEFT)
-        robot.action(choice)
+        #    steps.push(LEFT)
+        robot.step(choice)
     #elif choice == LEFT:
-    #    robot.action(choice)
-
+    #    robot.step(choice)
+#     send_cmd(REQ_SENSOR)
+#     evt.wait()
     gevent.joinall([
-        gevent.spawn(delay_call, do_alignment, actions)
+        gevent.spawn(delay_call, do_alignment, steps)
     ])
 
 #####################
@@ -206,73 +207,55 @@ def start_exploration(percentage, delay):
     sys.stdout = f
 
 
-    inform("Exploration started: Alignment!")
+    inform("Exploration initialized!")
     robot = algo.realRun.Robot()
     delay_time = float(delay)
 
-    send_cmd(FD_AL) # W
-    evt.wait()
-    send_cmd(LD_AL) # Q
-    evt.wait()
-    send_cmd(FD_AL) # W
-    evt.wait()
-    send_cmd(RIGHT) # D
-    evt.wait()
-    send_cmd(LA_AL) # L
-    evt.wait()
+#     send_cmd(FD_AL) # N
+#     evt.wait()
+  
+#     send_cmd(LD_AL) # Q
+#     evt.wait()
+    
+    #Thus:
+#     send_cmd(FD_AL) # W
+#     evt.wait()
+  
+#     send_cmd(RIGHT) # D
+#     evt.wait()
+         
+#     send_cmd(LA_AL) # M
+#     evt.wait()
+# 
+#     send_cmd(RIGHT)
+#     robot.step(RIGHT)
+#     evt.wait()
 
+    
     started = True
     send_cmd(REQ_SENSOR) # E
     evt.wait()
 
-    send_cmd(RIGHT)
-    robot.action(RIGHT)
-    evt.wait()
+#     send_cmd(LEFT)
+#     robot.step(LEFT)
+#     evt.wait()
 
-    send_cmd(REQ_SENSOR) # E
-    evt.wait()
-
-    send_cmd(LEFT)
-    robot.action(LEFT)
-    evt.wait()
-
-    started = False
-    send_cmd(LD_AL) # Q
-    evt.wait()
-    send_cmd(LA_AL) # L
-    evt.wait()
-    started = True
-
-
-    ### TESTING
-    # for i in range(robot.MAX_ROW):
-    #     for j in range(robot.MAX_COL):
-    #         robot.explored_map[i][j] = 1
-    # for i in range(7):
-    #     robot.explored_map[4][i] = 2
-    # for i in range(5):
-    #     robot.explored_map[i][6] = 2
-
-
-    # # doing_sp = True
-    # sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    # sp_list = sp.shortest_path(-1)
-    # sp_sequence = sp_list['trim_seq']
-    # sp_sequence.reverse()
-    # inform(sp_sequence)
-
-    # gevent.joinall([
-    #     gevent.spawn(sp_to_goal, sp_sequence)
-    # ])
-    ### END TESTING
+#     started = False
+#     send_cmd(LD_AL) # Q
+#     evt.wait()
+#    
+#     send_cmd(LA_AL) # L
+#     evt.wait()
+#     started = True
 
 
     exp = Exploration(int(percentage))
 
-    inform("Exploration started, for real!")
+    inform("Exploration started!")
     t1 = FuncThread(exploration, exp)
     t1.start()
     t1.join()
+
 
 def exploration(exp):
     global started
@@ -289,15 +272,20 @@ def exploration(exp):
         return False
 
     if cur[0]:
-        if robot.try_left:
-            evt.wait()
-            do_alignment(robot.alignment())
+#         if robot.try_left:
+#             evt.wait()
+#             do_alignment(robot.alignment())
 
-        robot.action(cur[0])
+        
         send_cmd(cur[0])
+        robot.step(cur[0])
+        #Tues:add evt.wait() to see where it can slow down the simulator
+#         evt.wait()
+        
 
     print("[Tornado] exploration > %s" %(robot.current))
-
+    msg1 = robot.msg_for_android()
+    btq.append(msg1)
     gevent.joinall([
         gevent.spawn(delay_call, exploration, exp)
     ])
@@ -310,10 +298,9 @@ def done_exploration():
 
     inform(robot.descriptor_one())
     inform(robot.descriptor_two())
-    # inform(robot.msg_for_android())
-
+    
     sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.start)
-    sp_list = sp.shortest_path(-1)
+    sp_list = sp.shortestPath(-1)
     sp_sequence = sp_list['trim_seq']
     sp_sequence.reverse()
     inform(sp_sequence)
@@ -335,11 +322,12 @@ def sp_to_start(sequence):
         done_sp_to_start()
         return False
 
-    evt.wait()
+
+    evt.wait()  
     do_alignment(robot.alignment())
 
     choice = sequence.pop()
-    robot.action(choice, -1)
+    robot.step(choice, -1)
     send_cmd(choice)
 
     print("[Tornado | %s] sp_to_start > %s : %s" %(time.ctime(time.time()), choice, robot.direction))
@@ -351,37 +339,36 @@ def done_sp_to_start():
     global exp_done
     inform("Gone back to start: Alignment!")
 
+    
     evt.wait()
-    send_cmd("W")
+    send_cmd(FD_AL) #"N"
     evt.wait()
 
     # Calibrate first!
     if robot.direction == NORTH:
-        robot.action(LEFT)
+        robot.step(LEFT)
         send_cmd(LEFT)
         evt.wait()
     elif robot.direction == SOUTH:
-        robot.action(RIGHT)
+        robot.step(RIGHT)
         send_cmd(RIGHT)
         evt.wait()
     elif robot.direction == EAST:
-        robot.action(LEFT)
-        send_cmd(LEFT)
-        evt.wait()
-        robot.action(LEFT)
+        robot.step(LEFT)
         send_cmd(LEFT)
         evt.wait()
 
-    send_cmd(FD_AL) # W
+        robot.step(LEFT)
+        send_cmd(LEFT)
+        evt.wait()
+
+    send_cmd(FD_AL) # N
     evt.wait()
-
     send_cmd(LD_AL) # Q
     evt.wait()
-
-    robot.action(RIGHT)
+    robot.step(RIGHT)
     send_cmd(RIGHT) # D
     evt.wait()
-
     send_cmd(LA_AL) # L
     evt.wait()
 
@@ -408,26 +395,13 @@ def start_sp_to_goal():
         return
     sp_to_goal_started = True
 
-    # # TESTING
-    # exp_done = True
-    # started = True
-    # for i in range(robot.MAX_ROW):
-    #     for j in range(robot.MAX_COL):
-    #         robot.explored_map[i][j] = 1
-    # for i in range(6):
-    #     robot.explored_map[13][i] = 2
-    # robot.explored_map[0][8] = 2
-    # robot.direction = NORTH
-    # send_cmd(REQ_SENSOR)
-    # # END TESTING
-
     if not exp_done:
         return False
     #started = True
     inform("ShortestPath started!")
 
     sp = ShortestPath(robot.explored_map, robot.direction, robot.current, robot.goal)
-    sp_list = sp.shortest_path()
+    sp_list = sp.shortestPath()
     sp_sequence = sp_list['trim_seq']
     sp_sequence.reverse()
     inform(sp_sequence)
@@ -442,11 +416,12 @@ def sp_to_goal(sequence):
         return False
 
     evt.wait()
+
     # DON'T DO ALIGNMENT WHILE DOING FASTEST PATH RACE
     # do_alignment(robot.alignment())
 
     choice = sequence.pop()
-    robot.action(choice, 9)
+    robot.step(choice, 9)
     send_cmd(choice)
 
     print("[Tornado | %s] sp_to_goal > %s : %s" %(time.ctime(time.time()), choice, robot.direction))
@@ -458,8 +433,9 @@ def done_sp_to_goal():
     #global started
     inform("ShortestPath done: Alignment!")
     evt.wait()
-    send_cmd("W")
+    send_cmd(FD_AL)
     evt.wait()
+
     inform("ShortestPath done, for real!")
     #started = False
     global sp_to_goal_started
@@ -476,7 +452,7 @@ def done_sp_to_goal():
 
 def btComm():
     # btaddr = "00:E3:B2:A1:8F:65" #note3
-    btaddr = "08:60:6E:A5:89:46" #nexus
+    btaddr = "08:60:6E:A5:16:34" #nexus
     uuid = "00001101-0000-1000-8000-00805f9b34fb"
     global android_ok
     while not android_ok:
@@ -515,6 +491,7 @@ def btCommListen():
     return client_sock
 
 def btWrite(threadName, delay):
+    #print ("BTWRITE")
     global btsock
     if not btsock:
         btsock = btCommListen()
@@ -523,6 +500,7 @@ def btWrite(threadName, delay):
         if len(btq) > 0:
             msg = btq.popleft()
             btsock.send(msg)
+            print(msg)      
             print ("[Android | %s] btWrite > %s" %(time.ctime(time.time()), msg))
     real_delay_call(btWrite, delay, threadName, delay)
 
@@ -553,21 +531,21 @@ def btRead(threadName, delay):
         #     orig_started = started
         #     started = True
         #     send_cmd(FORWARD)
-        #     robot.action(FORWARD)
+        #     robot.step(FORWARD)
         #     evt.wait()
         #     started = orig_started()
         # elif msg == "tl":
         #     orig_started = started
         #     started = True
         #     send_cmd(LEFT)
-        #     robot.action(LEFT)
+        #     robot.step(LEFT)
         #     evt.wait()
         #     started = orig_started()
         # elif msg == "tr":
         #     orig_started = started
         #     started = True
         #     send_cmd(RIGHT)
-        #     robot.action(RIGHT)
+        #     robot.step(RIGHT)
         #     evt.wait()
         #     started = orig_started
 
@@ -595,6 +573,7 @@ def serWrite(threadName, delay):
         msg = serialq.popleft()
         serial.write(msg)
         print ("[Arduino | %s] serWrite > %s" %(time.ctime(time.time()), msg))
+        inform("Serwrite > "+msg)
 
     real_delay_call(serWrite, delay, threadName, delay)
 
@@ -610,10 +589,15 @@ def parse_msg(msg):
         # alignment acknowledgemnet
         None
     elif started:
-        sensorString = msg
+        #Tues:fixed the sensorString is referenced before error
+#         sensorString = msg
         global sensors
-        sensors = robot.parse_sensors(sensorString)
-        robot.update_map()
+#         print sensorString
+    sensors = robot.receive_sensors(msg)
+    inform("Sensors: "+ msg)
+        
+    
+    robot.update_map()
     evt.set()
     return
 
@@ -647,11 +631,8 @@ if __name__ == '__main__':
     t2.start()
     t4.start()
     t5.start()
-
     t3.start()
-
-    #t1.join()
-    #t2.join()
     t3.join()
-    #t4.join()
-    #t5.join()
+
+
+

@@ -8,13 +8,15 @@ EAST = "E"
 WEST = "W"
 
 # ACTIONS
-LEFT = "A"
-RIGHT = "D"
+LEFT = "L"
+RIGHT = "R"
 FORWARD = "1" # 1..f (1-15) lower case!
 
-LA_AL = "L" # L = left angle alignment
-LD_AL = "Q" # Q = left distance alignment (Includes rotate left and right back)
-FA_AL = "F" # F = front angle alignment
-FD_AL = "W" # W = front distance alignment
+LA_AL = "M" # L = left angle alignment
+LD_AL = "N" # Q = left distance alignment (Includes rotate left and right back)
+L_AL = "O" #left angle and left distant
+FA_AL = "P" # F = front angle alignment
+FD_AL = "Q" # W = front distance alignment
 
-REQ_SENSOR = "E"
+
+REQ_SENSOR = "X"

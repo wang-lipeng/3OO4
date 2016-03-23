@@ -214,13 +214,17 @@ class Robot(object):
 
         """front and left blocked""" 
         if front and left:
-            return [FD_AL, LD_AL]
+            return [FD_AL, LD_AL] #Q, N
+#             print("Front and Left Danger")
         elif front: #front blocked
-            return [FA_AL, FD_AL]
+            return [FA_AL, FD_AL] #P, Q
         elif left: #left blocked
             if self.try_left:
                 self.try_left = False
-                return [LD_AL]
+                return [L_AL] #O
+#                 print("Left Danger")
+#                 return []
+
             else:
                 return [LA_AL]
         else:
@@ -237,7 +241,7 @@ class Robot(object):
         def convert_short_sensor_distance(str):
             if is_float(str):
                 sensorVal = float(str)
-                if ((sensorVal >=  0) and (sensorVal <  10)):
+                if ((sensorVal >=  0) and (sensorVal <  12)):
                     return [2, None, None, None]
                 elif ((sensorVal >=  10) and (sensorVal <  20)):
                     return [1, 2, None, None]
@@ -251,9 +255,9 @@ class Robot(object):
         def convert_front_sensor(str):
             if is_float(str):
                 sensorVal = float(str)
-                if ((sensorVal >=  0) and (sensorVal <  10)):
+                if ((sensorVal >=  0) and (sensorVal <  12)):
                     return [2, None, None, None]
-                elif ((sensorVal >=  10) and (sensorVal <  20)):
+                elif ((sensorVal >=  12) and (sensorVal <  20)):
                     return [1, 2, None, None]
                 elif ((sensorVal >=  20) and (sensorVal <  25)):
                     return [1, 1, 2, None]
@@ -263,9 +267,9 @@ class Robot(object):
         def convert_left_sensor(str):
             if is_float(str):
                 sensorVal = float(str)
-                if ((sensorVal >=  0) and (sensorVal <  10)):
+                if ((sensorVal >=  0) and (sensorVal <  12)):
                     return [2, None, None, None]
-                elif ((sensorVal >=  10) and (sensorVal <  20)):
+                elif ((sensorVal >=  12) and (sensorVal <  20)):
                     return [1, 2, None, None]
                 elif ((sensorVal >=  20) and (sensorVal <  30)):
                     return [1, 1, 2, None]
@@ -277,9 +281,9 @@ class Robot(object):
         def convert_right_sensor(str):
             if is_float(str):
                 sensorVal = float(str)
-                if ((sensorVal >=  0) and (sensorVal <  10)):
+                if ((sensorVal >=  0) and (sensorVal <  12)):
                     return [2, None, None, None]
-                elif ((sensorVal >=  10) and (sensorVal <  20)):
+                elif ((sensorVal >=  12) and (sensorVal <  20)):
                     return [1, 2, None, None]
                 elif ((sensorVal >=  20) and (sensorVal <  30)):
                     return [1, 1, 2, None]
@@ -297,7 +301,8 @@ class Robot(object):
         sensors.append(convert_right_sensor(sensorList[4]))  # RT: max 30
 #         sensors.append(convert_left_sensor( sensorList[5]))  # LB: max 35
 
-        if abs((float(sensorList[3]) + float(sensorList[5])) / 2.0 - 5.3) >= 0.5:
+#         if abs((float(sensorList[3]) + float(sensorList[5])) / 2.0 - 5.3) >= 0.5:
+        if abs((float(sensorList[3])) / 1.0 - 5.3) >= 0.5:
             self.try_left = True
         else:
             self.try_left = False
@@ -547,51 +552,80 @@ class Robot(object):
         # robot is placed according to robot body's top-left corner (i.e. (0, 0) is meant to be on top-left)
         #
 
-        ret = {"grid": "", "coordinate": dict(), "direction": ""}
-
-
-
+        ret = {"coordinate": dict(), "direction": "", "grid": "","explored_map":""}
+        
+       
+ 
         transformed_map = []
         for i in range(self.MAX_COL):
             transformed_map.append([])
             for j in range(self.MAX_ROW):
                 transformed_map[i].append(0)
-
+ 
         col = 0
         for i in range(self.MAX_ROW - 1, -1, -1):
             for j in range(self.MAX_COL):
                 transformed_map[j][col] = self.explored_map[i][j]
             col += 1
-        # print(transformed_map)
 
-        grid_seq = []
-        cnt = 0
-        for row in reversed(transformed_map):
+        #descriptor 1
+        ret1 = [1, 1]
+        for row in reversed(self.explored_map):
             for col in row:
-                cnt += 1
-                if col == 2:
-                    grid_seq.append(1)
+                if col > 0:
+                    ret1.append(1)
                 else:
-                    grid_seq.append(0)
-        while cnt % 8 != 0:
-            grid_seq.append(0)
-            cnt += 1
+                    ret1.append(0)
+        ret1.append(1)
+        ret1.append(1)
 
-        hex_val = []
-        temp = []
-        for bit in grid_seq:
-            if len(temp) < 4:
-                temp.append(bit)
+        hex_ret1 = []
+        temp1 = []
+        for bit in ret1:
+            if len(temp1) < 4:
+                temp1.append(bit)
             else:
-                temp_str = ''.join([str(b) for b in temp])
-                hex_val.append(str(hex(int(temp_str, 2)))[2:])
-                temp = [bit]
-        if len(temp) > 0:
-            temp_str = ''.join([str(b) for b in temp])
-            hex_val.append(str(hex(int(temp_str, 2)))[2:])
+                temp_str1 = ''.join([str(b) for b in temp1])
+                hex_ret1.append(str(hex(int(temp_str1, 2)))[2:])
+                temp1 = [bit]
+        if len(temp1) > 0:
+            temp_str1 = ''.join([str(b) for b in temp1])
+            hex_ret1.append(str(hex(int(temp_str1, 2)))[2:])
 
-        ret['grid'] = ''.join([h for h in hex_val])
+        d1= ''.join([h for h in hex_ret1])
+    
+        #descriptor 2 - explored map
+        ret2 = []
+        cnt2 = 0
+        for row in reversed(self.explored_map):
+            for col in row:
+                if col > 0:
+                    cnt2 += 1
+                    if col == 2:
+                        ret2.append(1)
+                    else:
+                        ret2.append(0)
+        while cnt2 % 8 != 0:
+            ret2.append(0)
+            cnt2 += 1
 
+        hex_ret2 = []
+        temp2 = []
+        for bit in ret2:
+            if len(temp2) < 4:
+                temp2.append(bit)
+            else:
+                temp_str2 = ''.join([str(b) for b in temp2])
+                hex_ret2.append(str(hex(int(temp_str2, 2)))[2:])
+                temp2 = [bit]
+        if len(temp2) > 0:
+            temp_str2 = ''.join([str(b) for b in temp2])
+            hex_ret2.append(str(hex(int(temp_str2, 2)))[2:])
+
+        d2 =  ''.join([h for h in hex_ret2])
+        
+        
+        #corrdinate
         coord = [0, 0]
         for i in range(self.MAX_COL):
             for j in range(self.MAX_ROW):
@@ -599,9 +633,10 @@ class Robot(object):
                     coord = [i, j]
                     break
 
-        ret['coordinate']['y'] = coord[0] - 1
-        ret['coordinate']['x'] = coord[1] - 1
+        ret['coordinate']['y'] = coord[1]
+        ret['coordinate']['x'] = coord[0] 
 
+        #direction    ##########
         direction = EAST
         if self.direction == NORTH:
             direction = EAST
@@ -610,8 +645,12 @@ class Robot(object):
         elif self.direction == SOUTH:
             direction = WEST
         else: # self.direction == WEST:
-            direction = NORTH
+            direction = NORTH  
 
+        ret['explored_map'] = d2
         ret['direction'] = direction
-
+        ret['grid'] = d1
+#         print(ret['grid'])
         return json.dumps(ret)
+        
+      
